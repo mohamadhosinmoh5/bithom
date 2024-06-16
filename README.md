@@ -1,2 +1,0 @@
-# bithome
- bithome
