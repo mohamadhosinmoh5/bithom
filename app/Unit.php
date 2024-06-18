@@ -18,4 +18,13 @@ class Unit extends Model
         'price',
         'title'
     ];
+
+    public function projectType()
+    {
+        return $this->belongsTo(ProjectType::class, 'idProjectType', 'id');
+    }
+    public function Project()
+    {
+        return $this->belongsTo(Project::class, 'idProject', 'id');
+    }
 }

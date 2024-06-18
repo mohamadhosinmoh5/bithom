@@ -16,5 +16,9 @@ class Transaction extends Model
         'status'
 
     ];
+    public function wallet()
+    {
+        return $this->belongsTo(Wallet::class, 'idWallet' ,'id');
+    }
 
 }

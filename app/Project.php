@@ -28,9 +28,22 @@ class Project extends Model
         'investmentStatus',
         'remainingArea',
         'startPrice'
-
-
-
     ];
+
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'idProject', 'id');
+    }
+
+    public function projectType()
+    {
+        return $this->belongsTo(ProjectType::class, 'idProjectType', 'id');
+    }
+
+    public function unit()
+    {
+        return $this->hasMany(Unit::class, 'idProject', 'id');
+    }
+
 
 }
