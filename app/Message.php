@@ -10,7 +10,6 @@ class Message extends Model
 {
     protected $fillable = [
         'user_id',
-        'date',
         'status',
         'ticket_id',
         'message'

@@ -32,10 +32,10 @@ class User extends \TCG\Voyager\Models\User
         'family',
         'birthdate',
         'nationalCode',
-        'nationalCardImg',
+        'nationalCard_img',
         'video',
         'profile',
-        'authStatus',
+        'auth_status',
         'address',
         'province',
         'city',
@@ -46,28 +46,28 @@ class User extends \TCG\Voyager\Models\User
 
     public function answer()
     {
-        return $this->hasMany(Answer::class, 'idTicket', 'id');
+        return $this->hasMany(Answer::class, 'user_id', 'id');
     }
 
 
     public function message()
     {
-        return $this->hasMany(Message::class, 'idTicket', 'id');
+        return $this->hasMany(Message::class, 'user_id', 'id');
     }
 
     public function product()
     {
-        return $this->hasMany(Product::class, 'idUser', 'id');
+        return $this->hasMany(Product::class, 'user_id', 'id');
     }
 
     public function ticket()
     {
-        return $this->hasMany(Ticket::class, 'idUser', 'id');
+        return $this->hasMany(Ticket::class, 'user_id', 'id');
     }
 
     public function wallet()
     {
-        return $this->hasOne(Wallet::class, 'idUser', 'id');
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
     }
 
 
