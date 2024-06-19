@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Unit extends Model
 {
     protected $fillable = [
-        'idProject',
-        'remainingMeterage',
-        'idProjectType',
+        'project_id',
+        'remaining_meterage',
+        'projectType_id',
         'store',
         'parking',
         'room',
@@ -21,10 +21,10 @@ class Unit extends Model
 
     public function projectType()
     {
-        return $this->belongsTo(ProjectType::class, 'idProjectType', 'id');
+        return $this->belongsTo(ProjectType::class, 'projectType_id', 'id');
     }
     public function Project()
     {
-        return $this->belongsTo(Project::class, 'idProject', 'id');
+        return $this->belongsTo(Project::class, 'projectType_id', 'id');
     }
 }

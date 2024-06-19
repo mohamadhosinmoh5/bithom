@@ -10,26 +10,26 @@ class Product extends Model
 {
     protected $fillable = [
         'meterage',
-        'idProject',
-        'idUser',
+        'project_id',
+        'user_id',
         'date',
         'time',
         'khesht',
-        'kheshtPrice',
-        'idWallet',
-        'investmentPrice'
+        'khesht_price',
+        'wallet_id',
+        'investment_price'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
     public function project()
     {
-        return $this->belongsTo(Project::class, 'idProject', 'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
     public function wallet()
     {
-        return $this->belongsTo(Wallet::class, 'idWallet', 'id');
+        return $this->belongsTo(Wallet::class, 'wallet_id', 'id');
     }
 }

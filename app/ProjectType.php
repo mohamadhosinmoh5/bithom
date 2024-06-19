@@ -13,12 +13,12 @@ class ProjectType extends Model
 
     public function product()
     {
-        return $this->hasMany(Project::class, 'idProjectType', 'id');
+        return $this->hasMany(Project::class, 'projectType_id', 'id');
     }
 
     public function unit()
     {
-        return $this->hasMany(Unit::class, 'idProjectType', 'id');
+        return $this->hasMany(Unit::class, 'projectType_id', 'id');
     }
 
 

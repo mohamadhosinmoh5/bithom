@@ -9,21 +9,21 @@ use Illuminate\Database\Eloquent\Model;
 class Wallet extends Model
 {
     protected $fillable = [
-        'idUser',
+        'user_id',
         'stock'
     ];
 
     public function product()
     {
-        return $this->hasMany(Product::class, 'idWallet', 'id');
+        return $this->hasMany(Product::class, 'wallet_id', 'id');
     }
     public function transaction()
     {
-        return $this->hasMany(Transaction::class, 'idWallet' ,'id');
+        return $this->hasMany(Transaction::class, 'wallet_id' ,'id');
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 }

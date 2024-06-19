@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PayGateway extends Model
 {
     protected $fillable = [
-        'idWallet'
+        'wallet_id'
     ];
 
 }

@@ -9,21 +9,21 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $fillable = [
-        'idUser',
+        'user_id',
         'date',
         'status',
-        'idTicket',
+        'ticket_id',
         'message'
     ];
 
 
     public function ticket()
     {
-        return $this->belongsTo(Ticket::class, 'idTicket', 'id');
+        return $this->belongsTo(Ticket::class, 'ticket_id', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
