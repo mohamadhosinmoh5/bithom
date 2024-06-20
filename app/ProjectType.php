@@ -11,7 +11,7 @@ class ProjectType extends Model
         'type'
     ];
 
-    public function product()
+    public function project()
     {
         return $this->hasMany(Project::class, 'projectType_id', 'id');
     }
