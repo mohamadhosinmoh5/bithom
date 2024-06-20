@@ -18,19 +18,32 @@ class AuthController extends Controller
             'mobile' => 'required',
         ]);
 
+
         if ($validator->fails()) {
+            // dd($validator->errors());
             return response()->json([
                 'status' => false,
                 'message' => 'Validation Error',
                 'errors' => $validator->errors(),
             ], 400);
         }
-        $exists = User::where('mobile', $request->mobile)->exists();
 
-        return response()->json([
-            'status' => true,
-            'exists' => $exists,
-        ], 200);
+
+        if(User::where('mobile', $request->mobile)->exists())
+            return response()->json([
+                'status' => true,
+                'exists' => true,
+            ], 200);
+        else{
+            $this->generateRandomOTP($request->mobile);
+
+            return response()->json([
+                'status' => true,
+                'exists' => false,
+            ], 200);
+        }
+
+
     }
 
 
@@ -69,36 +82,21 @@ class AuthController extends Controller
         ], 200);
     }
 
-    function generateRandomOTP(Request $request)
+    function generateRandomOTP($mobile)
     {
 
-        $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation Error',
-                'errors' => $validator->errors(),
-            ], 400);
-        }
-        $user = User::where('mobile', $request->mobile)->first();
-
-        $otp =  random_int(1000, 9999);
-        $user -> otp = $otp;
+        $user = new User;
+        $user->mobile = $mobile;
+        $user->otp = random_int(1000, 9999);
         $user->save();
-        return response()->json([
-            'status' => true,
-            'message' => 'saveCode',
-        ], 201);
+        return true;
     }
 
     public function checkOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required',
-            'otp' => 'required|min:4',
+            'otp' => 'required|min:4|max:4',
         ]);
 
         if ($validator->fails()) {
@@ -109,19 +107,17 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $user = User::where('mobile', $request->mobile)->first();
-        if ($user && $user->otp == $request->otp) {
-
+        if ($user = User::where(['mobile' => $request->mobile,'otp' => $request->otp])->first())
             return response()->json([
                 'status' => true,
                 'message' => 'Correct OTP',
             ], 200);
-        } else {
+         else
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid OTP',
             ], 401);
-        }
+
 
     }
 
