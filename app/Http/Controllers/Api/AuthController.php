@@ -15,11 +15,10 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|integer',
+            'mobile' => 'required',
         ],
         $messages = [
             'mobile.required' => 'فیلد موبایل الزامی است.',
-            'mobile.integer' => 'فیلد موبایل باید عددی باشد.',
         ]);
 
 
