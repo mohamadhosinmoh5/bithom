@@ -18,7 +18,7 @@ class userPanelController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required',
-            'oldPass' => 'required',
+            'password' => 'required',
             'newPass' => 'required',
             'confirm' => 'required',
         ]);
