@@ -35,14 +35,12 @@ class AuthController extends Controller
         if(User::where('mobile', $request->mobile)->exists())
             return response()->json([
                 'status' => true,
-                'exists' => true,
             ], 200);
         else{
             $this->generateRandomOTP($request->mobile);
 
             return response()->json([
-                'status' => true,
-                'exists' => false,
+                'status' => false,
             ], 200);
         }
 
