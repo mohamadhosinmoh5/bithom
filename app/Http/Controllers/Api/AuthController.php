@@ -137,6 +137,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
+            'mobile' => 'required',
             'name' => 'required',
             'family' => 'required',
             'birthdate' => 'required',
@@ -178,5 +179,7 @@ class AuthController extends Controller
 
 
     }
+
+
 
 }
