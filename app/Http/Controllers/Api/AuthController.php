@@ -51,7 +51,7 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|integer',
+            'mobile' => 'required',
             'password' => 'required',
 
             // 'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
