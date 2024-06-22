@@ -15,7 +15,11 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|integer',
+        ],
+        $messages = [
+            'mobile.required' => 'فیلد موبایل الزامی است.',
+            'mobile.integer' => 'فیلد موبایل باید عددی باشد.',
         ]);
 
 
@@ -50,9 +54,19 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|integer',
             'password' => 'required',
-        ]);
+
+            // 'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
+        ],
+        // $messages = [
+        //     'password.required' => 'فیلد پسورد الزامی است.',
+        //     'password.min:8' => 'پسورد باید حداقل 8 کاراکتر باشد.',
+        //     'password.regex:/[a-z]/' => 'پسورد باید حاوی حرف کوچک باشد.',
+        //     'password.regex:/[A-Z]/' => 'پسورد باید حاوی حرف بزرگ باشد.',
+        //     'password.regex:/\d/' => 'پسورد باید حاوی رقم باشد.',
+        // ]
+        );
 
         if ($validator->fails()) {
             return response()->json([
@@ -84,7 +98,6 @@ class AuthController extends Controller
 
     function generateRandomOTP($mobile)
     {
-
         $user = new User;
         $user->mobile = $mobile;
         $user->otp = random_int(1000, 9999);
@@ -140,7 +153,11 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $user = User::create([
+
+        $user = User::where('mobile', $request->mobile)->first();
+
+        $user->update([
+            'mobile' => $request->mobile,
             'name' => $request->name,
             'family' => $request->family,
             'birthdate' => $request->birthdate,
@@ -152,11 +169,11 @@ class AuthController extends Controller
         $user -> remember_token = $token;
         $user->save();
 
-
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
             'token' => $token,
+            'name' => $user->name,
         ], 201);
 
 
