@@ -90,6 +90,8 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'Login Successful',
             'token' => $token,
+            'name' => $user->name,
+            'family' => $user->family,
         ], 200);
     }
 
@@ -171,6 +173,7 @@ class AuthController extends Controller
             'message' => 'User Created Successfully',
             'token' => $token,
             'name' => $user->name,
+            'family' => $user->family,
         ], 201);
 
 
