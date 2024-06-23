@@ -39,7 +39,7 @@ class fileUploadController extends Controller
         {
             $file = new File;
             $file->url = $uploadedFile;
-            // $file->type = $file->getMimeType();
+            $file->type = $type[array_search($uploadedFile, $uploadedFiles)];
             $file->save();
             $uploads[] = [
                 'id' => $file->id,

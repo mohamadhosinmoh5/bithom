@@ -13,6 +13,5 @@ class File extends Model
         'file',
     ];
 
-   
 
 }
