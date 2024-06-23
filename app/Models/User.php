@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Answer;
+use App\File;
 use App\Message;
 use App\Product;
 use App\Ticket;
@@ -43,6 +44,8 @@ class User extends \TCG\Voyager\Models\User
         'inviteCode'
 
     ];
+
+  
 
     public function answer()
     {

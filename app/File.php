@@ -2,21 +2,17 @@
 
 namespace App;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 
 class File extends Model
 {
     protected $fillable = [
-        'first_img',
-        'video',
-        'image',
-        'project_id'
+        'type',
+        'file',
     ];
 
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'project_id', 'id');
-    }
+   
 
 }

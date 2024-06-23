@@ -31,7 +31,6 @@ class AuthController extends Controller
             ], 400);
         }
 
-
         if(User::where('mobile', $request->mobile)->exists())
             return response()->json([
                 'status' => true,
@@ -43,10 +42,31 @@ class AuthController extends Controller
                 'status' => false,
             ], 200);
         }
-
-
     }
 
+    public function updateOtp(Request $request)
+    {
+        $validator = validator::make($request->all(), [
+            'mobile' => 'required',
+        ]);
+
+        if($validator->failed())
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 400);
+
+        $user = User::where('mobile', $request->mobile)->first();
+        $user->otp = random_int(1000, 9999);
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'رمز ارسال شد.',
+        ], 201);
+
+    }
 
     public function loginUser(Request $request)
     {
@@ -180,7 +200,7 @@ class AuthController extends Controller
 
     }
 
- 
+
 
 
 
