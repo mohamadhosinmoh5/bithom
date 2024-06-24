@@ -9,6 +9,7 @@ use App\File;
 use App\Message;
 use App\Product;
 use App\Ticket;
+use App\UserIdentityInformation;
 use App\Wallet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,19 +34,21 @@ class User extends \TCG\Voyager\Models\User
         'family',
         'birthdate',
         'nationalCode',
-        'nationalCard_img',
-        'video',
-        'profile',
         'auth_status',
         'address',
         'province',
         'city',
         'componyCode',
-        'inviteCode'
+        'inviteCode',
+        'remember_token'
 
     ];
 
-  
+
+    public function identityInformation()
+    {
+        return $this->belongsTo(UserIdentityInformation::class, 'user_id', 'id');
+    }
 
     public function answer()
     {

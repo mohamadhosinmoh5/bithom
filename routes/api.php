@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\fileUploadController;
-use App\Http\Controllers\userPanelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,11 +39,12 @@ Route::post('/auth/upadteOtp', [AuthController::class, 'updateOtp']);
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 
-Route::post('/userPanel/changePassword', [userPanelController::class, 'chengePassword']);
-Route::get('/userPanel/userInfo', [userPanelController::class, 'getUserInfo']);
-Route::post('/userPanel/userInfo', [userPanelController::class, 'userInfo']);
+Route::post('/userPanel/changePassword', [UserController::class, 'chengePassword']);
+Route::get('/userPanel/userInfo', [UserController::class, 'getUserInfo']);
+Route::post('/userPanel/userInfo', [UserController::class, 'userUpdate']);
 
-Route::post('/userPanel/auth', [fileUploadController::class, 'UploadFiles']);
+Route::post('/userPanel/auth', [FileUploadController::class, 'UploadFiles']);
+
 
 
 

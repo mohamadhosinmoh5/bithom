@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class fileUploadController extends Controller
+class FileUploadController extends Controller
 {
     public function UploadFiles(Request $request)
     {
