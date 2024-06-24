@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 
-class UserIdentityInformation extends Model
+class UserIdentityInformations extends Model
 {
     protected $fillable = [
         'video_file_id',
@@ -26,10 +26,10 @@ class UserIdentityInformation extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    const ACCEPTED = 1;
-    const FAILED = 0;
-    const AWAITING_CONFIRMATION = 2;
-    const NOT_TAKEN = 3;
+    public const ACCEPTED = "1";
+    public const FAILED = "0";
+    public const AWAITING_CONFIRMATION = "2";
+    public const NOT_TAKEN = "3";
 
 
 

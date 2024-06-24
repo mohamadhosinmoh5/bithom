@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\UserIdentityInformation;
+use App\UserIdentityInformations;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -93,7 +93,6 @@ class UserController extends Controller
 
     public function userUpdate(Request $request)
     {
-        $UserIdentityInformation = new UserIdentityInformation();
 
         $validator = Validator::make($request->all(), [
             'mobile' => 'required',
@@ -125,7 +124,6 @@ class UserController extends Controller
         else
         {
             $updates = [];
-            $userInfo = [];
 
             if(empty($request->nationalCard_file_id) && (empty($request->video_file_id)) && (empty($request->profile_file_id)))
             {
@@ -144,18 +142,26 @@ class UserController extends Controller
             }
             else
             {
-                if (!empty($request->nationalCard_file_id))
-                    $userInfo['nationalCard_file_id'] = $request->nationalCard_file_id;
-                    $userInfo['nationalCard_file_status'] = $UserIdentityInformation->AWAITING_CONFIRMATION;
-                if (!empty($request->video_file_id))
-                    $userInfo['video_file_id'] = $request->video_file_id;
-                    $userInfo['video_file_status'] = $UserIdentityInformation->AWAITING_CONFIRMATION;
-                if (!empty($request->profile_file_id))
-                    $userInfo['profile_file_id'] = $request->profile_file_id;
-                    $userInfo['profile_file_status'] = $UserIdentityInformation->AWAITING_CONFIRMATION;
+                $uii = UserIdentityInformations::where('user_id', $user->id)->first();
+                if($uii == null)
+                    $uii = new UserIdentityInformations();
 
-                $userInfo['user_id'] = $user->id;
-                $UserIdentityInformation->save($userInfo);
+                if (!empty($request->nationalCard_file_id)){
+                    $uii->nationalCard_file_id = $request->nationalCard_file_id;
+                    $uii->nationalCard_file_status =  $uii::AWAITING_CONFIRMATION;
+                }
+                if (!empty($request->video_file_id)){
+                    $uii->video_file_id = $request->video_file_id;
+                    $uii->video_file_status = $uii::AWAITING_CONFIRMATION;
+                }
+                if (!empty($request->profile_file_id))
+                {
+                    $uii->profile_file_id = $request->profile_file_id;
+                    $uii->profile_file_status = $uii::AWAITING_CONFIRMATION;
+                }
+
+                $uii->user_id = $user->id;
+                $uii->save();
 
                 return response()->json([
                     'status' => true,
