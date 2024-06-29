@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Message;
 use App\Models\User;
 use App\Ticket;
@@ -105,12 +106,31 @@ class TicketController extends Controller
                 'status' => false,
                 'message' => ' کاربر وجود ندارد.',
             ], 400);
-
-
-
-
-
-
     }
-    
+
+    public function createAnswer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'answer' =>'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+        // Answer::create([
+        //     'answer' => $request->message,
+        //     'ticket_id' => $ticket->id,
+        //     'message_id' => $ticket->id,
+        //     'user_id' => $user->id
+        // ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'پاسخ ثبت شد',
+        ], 201);
+    }
+
 }
