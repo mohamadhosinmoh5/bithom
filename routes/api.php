@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/auth', [AuthController::class, 'checkPhone']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
-Route::post('/auth/sendOtp', [AuthController::class, 'sendOtp']);
+Route::post('/auth/checkOtp', [AuthController::class, 'checkOtp']);
 
 
 Route::post('/auth/generateOtp', [AuthController::class, 'generateRandomOTP']);
