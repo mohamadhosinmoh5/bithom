@@ -147,6 +147,7 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'family' => $user->family,
                 'mobile' => $user->mobile,
+                'token' => $user->remember_token,
             ], 200);
          else
             return response()->json([

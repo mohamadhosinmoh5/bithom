@@ -12,7 +12,8 @@ class Answer extends Model
 
         'answer',
         'user_id',
-        'ticket_id'
+        'ticket_id',
+        'message_id'
     ];
 
 

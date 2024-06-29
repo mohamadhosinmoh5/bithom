@@ -10,9 +10,12 @@ class Ticket extends Model
 {
     protected $fillable = [
         'user_id',
-        'ticket'
+        'title',
+        'status'
     ];
 
+    const ANSWERED = "1";
+    const NOT_ANSWERED = "0";
 
     public function answer()
     {
@@ -29,4 +32,7 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class, 'user_id' ,'id');
     }
+
+
 }
+

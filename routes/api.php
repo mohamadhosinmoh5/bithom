@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\fileUploadController;
+use App\Http\Controllers\ticketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +42,17 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 
 Route::post('/userPanel/changePassword', [UserController::class, 'chengePassword']);
 Route::get('/userPanel/userInfo', [UserController::class, 'getUserInfo']);
-Route::post('/userPanel/userInfo', [UserController::class, 'userUpdate']);
+Route::post('/userPanel/userUpdate', [UserController::class, 'userUpdate']);
 
 Route::post('/userPanel/auth', [FileUploadController::class, 'UploadFiles']);
+
+Route::get('/userPanel/getTicket', [TicketController::class, 'getTickets']);
+Route::get('/userPanel/getMessage', [TicketController::class, 'getMessage']);
+
+Route::post('/userPanel/createTicket', [TicketController::class, 'createTicket']);
+
+
+
 
 
 
