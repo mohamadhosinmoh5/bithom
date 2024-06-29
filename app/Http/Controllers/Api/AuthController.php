@@ -144,11 +144,15 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Correct OTP',
+                'name' => $user->name,
+                'family' => $user->family,
+                'mobile' => $user->mobile,
             ], 200);
          else
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid OTP',
+
             ], 401);
 
 
