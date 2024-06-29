@@ -112,6 +112,7 @@ class AuthController extends Controller
             'token' => $token,
             'name' => $user->name,
             'family' => $user->family,
+            'mobile' => $user->mobile,
         ], 200);
     }
 
@@ -195,6 +196,7 @@ class AuthController extends Controller
             'token' => $token,
             'name' => $user->name,
             'family' => $user->family,
+            'mobile' => $user->mobile,
         ], 201);
 
 
