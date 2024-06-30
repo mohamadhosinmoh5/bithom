@@ -51,6 +51,12 @@ Route::get('/userPanel/getMessage', [TicketController::class, 'getMessage']);
 
 Route::post('/userPanel/createTicket', [TicketController::class, 'createTicket']);
 
+Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']);
+
+Route::post('/userPanel/messagAnswer', [TicketController::class, 'messagAnswer']);
+
+
+
 
 
 

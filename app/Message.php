@@ -12,7 +12,8 @@ class Message extends Model
         'user_id',
         'status',
         'ticket_id',
-        'message'
+        'message',
+        'answer_id'
     ];
 
 

@@ -90,7 +90,7 @@ class TicketController extends Controller
                 'user_id' => $user->id,
                 'status' => Ticket::NOT_ANSWERED,
             ]);
-            Message::create([
+            $message = Message::create([
                 'message' => $request->message,
                 'ticket_id' => $ticket->id,
                 'user_id' => $user->id
@@ -99,6 +99,8 @@ class TicketController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'تیکت ثبت شد',
+                'ticket_id' => $message->ticket_id,
+                'message_id' => $message->id,
             ], 201);
         }
         else
@@ -111,7 +113,43 @@ class TicketController extends Controller
     public function createAnswer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'answer' =>'required'
+            'answer' =>'required',
+            'ticket_id' => 'required',
+            'message_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+        $ticket = Ticket::findOrFail($request->ticket_id);
+        $answer = Answer::create([
+            'answer' => $request->answer,
+            'ticket_id' => $ticket->id,
+            'message_id' => $request->message_id,
+            'user_id' => $ticket->user_id
+        ]);
+
+        $ticket->update([
+            'status' => Ticket::ANSWERED,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'پاسخ ثبت شد',
+            'ticket_id' => $answer->ticket_id,
+            'answer_id' => $answer->id,
+        ], 201);
+    }
+
+    public function messagAnswer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'message' =>'required',
+            'ticket_id' => 'required',
+            'answer_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -121,15 +159,20 @@ class TicketController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        // Answer::create([
-        //     'answer' => $request->message,
-        //     'ticket_id' => $ticket->id,
-        //     'message_id' => $ticket->id,
-        //     'user_id' => $user->id
-        // ]);
+        // $ticket = Ticket::where('id' , $request->ticket_id)->first();
+        $ticket = Ticket::findOrFail($request->ticket_id);
+
+        $message = Message::create([
+            'message' => $request->message,
+            'ticket_id' => $ticket->id,
+            'answer_id' =>$request->answer_id,
+            'user_id' => $ticket->user_id
+        ]);
+
         return response()->json([
             'status' => true,
             'message' => 'پاسخ ثبت شد',
+
         ], 201);
     }
 

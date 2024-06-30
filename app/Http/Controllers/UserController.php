@@ -114,7 +114,6 @@ class UserController extends Controller
                 'message' => 'Validation Error',
                 'errors' => $validator->errors(),
             ], 400);
-
         $user = User::where('mobile', $request->mobile)->first();
         if ($user->remember_token !== $request->header('Authorization'))
             return response()->json([
