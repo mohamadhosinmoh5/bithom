@@ -35,7 +35,7 @@ Route::post('/auth/checkOtp', [AuthController::class, 'checkOtp']);
 
 
 Route::post('/auth/generateOtp', [AuthController::class, 'generateRandomOTP']);
-Route::post('/auth/upadteOtp', [AuthController::class, 'updateOtp']);
+Route::post('/auth/updateOtp', [AuthController::class, 'updateOtp']);
 
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
