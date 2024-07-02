@@ -49,11 +49,11 @@ Route::post('/userPanel/auth', [FileUploadController::class, 'UploadFiles']);
 Route::get('/userPanel/getTicket', [TicketController::class, 'getTickets']);
 Route::get('/userPanel/getMessage', [TicketController::class, 'getMessage']);
 
-Route::post('/userPanel/createTicket', [TicketController::class, 'createTicket']);
+Route::post('/userPanel/createMessage', [TicketController::class, 'createMessage']);
 
 Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']);
 
-Route::post('/userPanel/messagAnswer', [TicketController::class, 'messagAnswer']);
+// Route::post('/userPanel/messagAnswer', [TicketController::class, 'messageAnswer']);
 
 
 
