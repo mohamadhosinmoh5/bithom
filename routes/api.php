@@ -47,7 +47,7 @@ Route::post('/userPanel/userUpdate', [UserController::class, 'userUpdate']);
 Route::post('/userPanel/auth', [FileUploadController::class, 'UploadFiles']);
 
 Route::get('/userPanel/getTicket', [TicketController::class, 'getTickets']);
-Route::get('/userPanel/getMessage', [TicketController::class, 'getMessage']);
+Route::get('/userPanel/getMessage', [TicketController::class, 'getTicket']);
 
 Route::post('/userPanel/createMessage', [TicketController::class, 'createMessage']);
 

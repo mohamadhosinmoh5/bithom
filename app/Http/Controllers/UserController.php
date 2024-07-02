@@ -10,6 +10,7 @@ use App\UserIdentityInformations;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 
 class UserController extends Controller
@@ -18,8 +19,18 @@ class UserController extends Controller
     public function chengePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
-            'password' => 'required',
+            'mobile' => 'required|numeric',
+            // 'password' => 'required',
+            'password' => [
+                'required',
+                'string',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+                'confirmed',
+            ],
             'newPass' => 'required',
             'confirm' => 'required',
         ]);

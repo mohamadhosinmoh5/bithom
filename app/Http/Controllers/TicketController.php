@@ -42,7 +42,7 @@ class TicketController extends Controller
         ], 201);
     }
 
-    public function getMessage(Request $request)
+    public function getTicket(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required',
@@ -56,13 +56,14 @@ class TicketController extends Controller
             ], 400);
 
 
-        $ticket = Ticket::where('id', $request->id)->first();
-        $message = $ticket->message;
+        $ticket = Ticket::where('id', $request->id)
+                ->with('message.answer')
+                ->orderBy('created_at', 'desc')
+                ->first();
 
         return response()->json([
             'status' => true,
-            'message' => $message,
-
+            'ticket' => $ticket,
         ], 201);
     }
 
@@ -87,7 +88,7 @@ class TicketController extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
 
-        if (empty($request->answer_id)){
+        if (empty($request->ticket_id)){
             if($user){
                 $ticket = Ticket::create([
                     'title' => $request->title,
@@ -118,7 +119,6 @@ class TicketController extends Controller
             $message = Message::create([
                 'message' => $request->message,
                 'ticket_id' => $ticket->id,
-                'answer_id' =>$request->answer_id,
                 'user_id' => $ticket->user_id
             ]);
 
@@ -133,6 +133,7 @@ class TicketController extends Controller
     public function createAnswer(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'mobile' => 'required',
             'answer' =>'required',
             'ticket_id' => 'required',
             'message_id' => 'required'
@@ -144,20 +145,24 @@ class TicketController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        $ticket = Ticket::findOrFail($request->ticket_id);
+
+        $user = User::where('mobile', $request->mobile)->first();
+
+        $message = Message::findOrFail($request->message_id);
+
         $answer = Answer::create([
             'answer' => $request->answer,
-            'ticket_id' => $ticket->id,
+            'ticket_id' => $request->ticket_id,
             'message_id' => $request->message_id,
-            'user_id' => $ticket->user_id
+            'user_id' => $message->user_id
         ]);
 
-        // $ticket->update([
-        //     'status' => Ticket::ANSWERED,
-        // ]);
-
+        $ticket = Ticket::findOrFail($request->ticket_id);
         $ticket -> status = Ticket::ANSWERED;
         $ticket->save();
+
+        $message -> answer_id = $answer->id;
+        $message->save();
 
         return response()->json([
             'status' => true,

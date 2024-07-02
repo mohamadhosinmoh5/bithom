@@ -26,4 +26,17 @@ class Answer extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'answer_id', 'id');
+    }
+
+    public function message()
+    {
+        return $this->belongsTo(Message::class, 'message_id', 'id');
+    }
+
+
+
 }

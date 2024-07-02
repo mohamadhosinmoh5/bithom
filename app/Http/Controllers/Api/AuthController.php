@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -15,7 +16,7 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|numeric',
         ],
         $messages = [
             'mobile.required' => 'فیلد موبایل الزامی است.',
@@ -47,7 +48,7 @@ class AuthController extends Controller
     public function updateOtp(Request $request)
     {
         $validator = validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|numeric',
         ]);
 
         if($validator->failed())
@@ -71,8 +72,18 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
-            'password' => 'required',
+            'mobile' => 'required|numeric',
+            // 'password' => 'required',
+            'password' => [
+                'required',
+                'string',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+                'confirmed',
+            ],
 
             // 'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
         ],
@@ -128,8 +139,8 @@ class AuthController extends Controller
     public function checkOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
-            'otp' => 'required|min:4|max:4',
+            'mobile' => 'required|numeric',
+            'otp' => 'required|min:4|max:4|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -163,8 +174,8 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
-            'mobile' => 'required',
-            'name' => 'required',
+            'mobile' => 'required|numeric',
+            'name' => 'required|string',
             'family' => 'required',
             'birthdate' => 'required',
             'nationalCode' => 'required|min:10',
