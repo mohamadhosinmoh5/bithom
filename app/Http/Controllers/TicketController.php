@@ -16,7 +16,7 @@ class TicketController extends Controller
     public function getTickets(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|numeric',
         ]);
 
         if ($validator->fails())
@@ -45,7 +45,7 @@ class TicketController extends Controller
     public function getTicket(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required',
+            'id' => 'required|numeric',
         ]);
 
         if ($validator->fails())
@@ -71,11 +71,11 @@ class TicketController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
-            'mobile' => 'required',
-            'title' => ($request->title !== null) ? 'required' : '',
+            'mobile' => 'required|numeric',
+            'title' => ($request->title !== null) ? 'required|max:255' : '',
             'message' =>($request->message !== null) ? 'required' : '',
-            'ticket_id' => ($request->ticket_id !== null) ? 'required' : '',
-            'answer_id' => ($request->answer_id !== null) ? 'required' : '',
+            'ticket_id' => ($request->ticket_id !== null) ? 'required|numeric' : '',
+            'answer_id' => ($request->answer_id !== null) ? 'required|numeric' : '',
         ]);
 
         if ($validator->fails()) {
@@ -133,10 +133,10 @@ class TicketController extends Controller
     public function createAnswer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|numeric',
             'answer' =>'required',
-            'ticket_id' => 'required',
-            'message_id' => 'required'
+            'ticket_id' => 'required|numeric',
+            'message_id' => 'required|numeric'
         ]);
         if ($validator->fails()) {
             return response()->json([

@@ -73,17 +73,17 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric',
-            // 'password' => 'required',
-            'password' => [
-                'required',
-                'string',
-                Password::min(8)
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
-                'confirmed',
-            ],
+            'password' => 'required',
+            // 'password' => [
+            //     'required',
+            //     'string',
+            //     Password::min(8)
+            //         ->mixedCase()
+            //         ->numbers()
+            //         ->symbols()
+            //         ->uncompromised(),
+            //     'confirmed',
+            // ],
 
             // 'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
         ],
@@ -175,11 +175,22 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
 
             'mobile' => 'required|numeric',
-            'name' => 'required|string',
-            'family' => 'required',
+            'name' => 'required|string|max:255',
+            'family' => 'required|string|max:255',
             'birthdate' => 'required',
             'nationalCode' => 'required|min:10',
             'password' => 'required',
+
+            // 'password' => [
+            //     'required',
+            //     'string',
+            //     Password::min(8)
+            //         ->mixedCase()
+            //         ->numbers()
+            //         ->symbols()
+            //         ->uncompromised(),
+            //     'confirmed',
+            // ],
         ]);
 
         if ($validator->fails()) {

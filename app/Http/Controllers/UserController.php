@@ -20,17 +20,17 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric',
-            // 'password' => 'required',
-            'password' => [
-                'required',
-                'string',
-                Password::min(8)
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),
-                'confirmed',
-            ],
+            'password' => 'required',
+            // 'password' => [
+            //     'required',
+            //     'string',
+            //     Password::min(8)
+            //         ->mixedCase()
+            //         ->numbers()
+            //         ->symbols()
+            //         ->uncompromised(),
+            //     'confirmed',
+            // ],
             'newPass' => 'required',
             'confirm' => 'required',
         ]);
@@ -76,7 +76,7 @@ class UserController extends Controller
     public function getUserInfo(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'mobile' => 'required|numeric',
         ]);
 
         if ($validator->fails())
@@ -106,17 +106,17 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
-            'name' => ($request->name !== null) ? 'required' : '',
-            'family' => ($request->family !== null) ? 'required' : '',
+            'mobile' => 'required|numeric',
+            'name' => ($request->name !== null) ? 'required|string|max:255' : '',
+            'family' => ($request->family !== null) ? 'required|string|max:255' : '',
             'birthdate' => ($request->birthdate !== null) ? 'required' : '',
-            'city' => ($request->city !== null) ? 'required' : '',
-            'province' => ($request->province !== null) ? 'required' : '',
-            'address' => ($request->address !== null) ? 'required' : '',
+            'city' => ($request->city !== null) ? 'required|string|max:255' : '',
+            'province' => ($request->province !== null) ? 'required|string|max:255' : '',
+            'address' => ($request->address !== null) ? 'required|string' : '',
             'companyCode' => ($request->companyCode !== null) ?  : '',
-            'nationalCard_file_id' => ($request->nationalCard_file_id !== null) ? 'required' : '',
-            'video_file_id' => ($request->video_file_id !== null) ? 'required' : '',
-            'profile_file_id' => ($request->profile_file_id !== null) ? 'required' : '',
+            'nationalCard_file_id' => ($request->nationalCard_file_id !== null) ? 'required|numeric' : '',
+            'video_file_id' => ($request->video_file_id !== null) ? 'required|numeric' : '',
+            'profile_file_id' => ($request->profile_file_id !== null) ? 'required|numeric' : '',
 
         ]);
         if ($validator->fails())
