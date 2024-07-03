@@ -103,11 +103,13 @@ class TicketController extends Controller
                 ]);
                 return response()->json([
                     'status' => true,
-                    'message' => 'تیکت ثبت شد',
-                    'ticket_id' => $message->ticket_id,
-                    'message_id' => $message->id,
-                    'check-status' => $ticket->status,
-                    'created_at' => $message->created_at,
+                    'payam' => 'تیکت ثبت شد',
+                    // 'ticket_id' => $message->ticket_id,
+                    // 'message_id' => $message->id,
+                    // 'check-status' => $ticket->status,
+                    // 'created_at' => $message->created_at,
+                    'ticket' => $ticket,
+                    'message' => $message,
                 ], 201);
             }
             else
