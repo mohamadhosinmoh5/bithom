@@ -140,7 +140,7 @@ class TicketController extends Controller
     public function createAnswer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric|digits:value',
+            'mobile' => 'required|numeric|digits:11',
             'answer' =>'required',
             'ticket_id' => 'required|numeric',
             'message_id' => 'required|numeric'
