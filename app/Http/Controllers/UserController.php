@@ -20,19 +20,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric',
-            'password' => 'required',
-            // 'password' => [
-            //     'required',
-            //     'string',
-            //     Password::min(8)
-            //         ->mixedCase()
-            //         ->numbers()
-            //         ->symbols()
-            //         ->uncompromised(),
-            //     'confirmed',
-            // ],
-            'newPass' => 'required',
-            'confirm' => 'required',
+            'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
+            'newPass' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
+            'confirm' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
         ]);
 
         if ($validator->fails())
@@ -63,20 +53,20 @@ class UserController extends Controller
                 ->json(
                     [
                         'status' => true,
-                        'message' => 'رمزعبور تغییر یافت.',
+                        'message' => 'گذرواژه تغییر یافت.',
                     ]
                 ,201);
         } else
             return response()->json([
                 'status' => false,
-                'message' => 'رمز عبور و تکرار یکسان نیست.',
+                'message' => 'گذرواژه و تکرار یکسان نیست.',
             ]);
     }
 
     public function getUserInfo(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric',
+            'mobile' => 'required|numeric|digits:11',
         ]);
 
         if ($validator->fails())
@@ -104,12 +94,11 @@ class UserController extends Controller
 
     public function userUpdate(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric',
+            'mobile' => 'required|numeric|digits:11',
             'name' => ($request->name !== null) ? 'required|string|max:255' : '',
             'family' => ($request->family !== null) ? 'required|string|max:255' : '',
-            'birthdate' => ($request->birthdate !== null) ? 'required' : '',
+            'birthdate' => ($request->birthdate !== null) ? 'required|date' : '',
             'city' => ($request->city !== null) ? 'required|string|max:255' : '',
             'province' => ($request->province !== null) ? 'required|string|max:255' : '',
             'address' => ($request->address !== null) ? 'required|string' : '',

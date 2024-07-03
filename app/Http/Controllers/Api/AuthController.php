@@ -16,11 +16,14 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric',
+            'mobile' => 'required|numeric|digits:11',
         ],
-        $messages = [
-            'mobile.required' => 'فیلد موبایل الزامی است.',
-        ]);
+        // $messages = [
+        //     'mobile.required' => 'فیلد موبایل الزامی است.',
+        //     'mobile.numeric' => 'موبایل باید عددی باشد',
+        //     'mobile.digits' => 'فیلد موبایل الزامی است.',
+        // ]
+        );
 
 
         if ($validator->fails()) {
@@ -72,27 +75,15 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric',
-            'password' => 'required',
-            // 'password' => [
-            //     'required',
-            //     'string',
-            //     Password::min(8)
-            //         ->mixedCase()
-            //         ->numbers()
-            //         ->symbols()
-            //         ->uncompromised(),
-            //     'confirmed',
-            // ],
-
-            // 'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
+            'mobile' => 'required|numeric|digits:11',
+            'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
         ],
-        // $messages = [
+        // [
         //     'password.required' => 'فیلد پسورد الزامی است.',
-        //     'password.min:8' => 'پسورد باید حداقل 8 کاراکتر باشد.',
-        //     'password.regex:/[a-z]/' => 'پسورد باید حاوی حرف کوچک باشد.',
-        //     'password.regex:/[A-Z]/' => 'پسورد باید حاوی حرف بزرگ باشد.',
-        //     'password.regex:/\d/' => 'پسورد باید حاوی رقم باشد.',
+        //     'password.min' => 'پسورد باید حداقل 8 کاراکتر باشد.',
+        //     'password.regex' => 'پسورد باید حاوی حرف کوچک باشد.',
+        //     'password.regex' => 'پسورد باید حاوی حرف بزرگ باشد.',
+        //     'password.regex' => 'پسورد باید حاوی رقم باشد.',
         // ]
         );
 
@@ -139,8 +130,8 @@ class AuthController extends Controller
     public function checkOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric',
-            'otp' => 'required|numeric',
+            'mobile' => 'required|numeric|digits:11',
+            'otp' => 'required|numeric|digits:4',
         ]);
 
         if ($validator->fails()) {
@@ -174,23 +165,12 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
-            'mobile' => 'required|numeric',
+            'mobile' => 'required|numeric|digits:11',
             'name' => 'required|string|max:255',
             'family' => 'required|string|max:255',
-            'birthdate' => 'required',
-            'nationalCode' => 'required|min:10',
-            'password' => 'required',
-
-            // 'password' => [
-            //     'required',
-            //     'string',
-            //     Password::min(8)
-            //         ->mixedCase()
-            //         ->numbers()
-            //         ->symbols()
-            //         ->uncompromised(),
-            //     'confirmed',
-            // ],
+            'birthdate' => 'required|date',
+            'nationalCode' => 'required||digits:10|numeric',
+            'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
         ]);
 
         if ($validator->fails()) {
