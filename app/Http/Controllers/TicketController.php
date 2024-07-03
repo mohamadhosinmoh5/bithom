@@ -106,6 +106,8 @@ class TicketController extends Controller
                     'message' => 'تیکت ثبت شد',
                     'ticket_id' => $message->ticket_id,
                     'message_id' => $message->id,
+                    'check-status' => $ticket->status,
+                    'created_at' => $message->created_at,
                 ], 201);
             }
             else
@@ -125,6 +127,9 @@ class TicketController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'پاسخ ثبت شد',
+                'created_at' => $message->created_at,
+                'ticket_id' => $ticket->id,
+                'user_id' => $ticket->user_id
 
             ], 201);
         }
