@@ -27,8 +27,14 @@ class Project extends Model
         'project_info',
         'investment_status',
         'remaining_area',
-        'start_price'
+        'start_price',
+        'supply_status_code'
     ];
+
+
+    const PRESENTING = "0";
+    const AWAITING_ESTOCKING = "1";
+    const FINISHED = "2";
 
     public function product()
     {

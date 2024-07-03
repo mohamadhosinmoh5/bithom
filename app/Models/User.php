@@ -10,6 +10,7 @@ use App\Message;
 use App\Product;
 use App\Ticket;
 use App\UserIdentityInformation;
+use App\UserIdentityInformations;
 use App\Wallet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -44,10 +45,9 @@ class User extends \TCG\Voyager\Models\User
 
     ];
 
-
     public function identityInformation()
     {
-        return $this->belongsTo(UserIdentityInformation::class, 'user_id', 'id');
+        return $this->belongsTo(UserIdentityInformations::class, 'user_id', 'id');
     }
 
     public function answer()

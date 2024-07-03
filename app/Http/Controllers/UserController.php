@@ -123,7 +123,6 @@ class UserController extends Controller
         else
         {
             $updates = [];
-
             if(empty($request->nationalCard_file_id) && (empty($request->video_file_id)) && (empty($request->profile_file_id)))
             {
                 $updates['name'] = $request->name;
@@ -166,11 +165,7 @@ class UserController extends Controller
                     'status' => true,
                 ], 201);
             }
-
-
         }
-
-
     }
 
 

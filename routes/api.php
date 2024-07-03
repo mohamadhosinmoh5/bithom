@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\fileUploadController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ticketController;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +56,14 @@ Route::post('/userPanel/createMessage', [TicketController::class, 'createMessage
 Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']);
 
 // Route::post('/userPanel/messagAnswer', [TicketController::class, 'messageAnswer']);
+
+Route::get('/getProjects', [ProjectController::class, 'getProjects']);
+Route::get('/getProject', [ProjectController::class, 'getProject']);
+
+Route::get('/getWallet', [WalletController::class, 'getWallet']);
+
+
+
 
 
 

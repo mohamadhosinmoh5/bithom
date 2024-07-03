@@ -176,6 +176,7 @@ class TicketController extends Controller
             'message' => 'پاسخ ثبت شد',
             'ticket_id' => $answer->ticket_id,
             'answer_id' => $answer->id,
+            
         ], 201);
     }
 

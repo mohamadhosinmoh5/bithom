@@ -13,7 +13,8 @@ class Transaction extends Model
         'time',
         'transaction_type',
         'price',
-        'status'
+        'status',
+        'reference_code'
 
     ];
     public function wallet()
