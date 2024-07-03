@@ -140,7 +140,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric',
-            'otp' => 'required|min:4|max:4|numeric',
+            'otp' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
