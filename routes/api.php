@@ -63,7 +63,10 @@ Route::get('/getProject', [ProjectController::class, 'getProject']);
 
 Route::get('/getWallet', [WalletController::class, 'getWallet']);
 
-Route::post('/payment', [PaymentController::class, 'payWithZibal']);
+Route::post('/payment', [PaymentController::class, 'payment']);
+
+
+
 
 
 
