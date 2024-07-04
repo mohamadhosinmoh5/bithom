@@ -65,7 +65,9 @@ Route::get('/getWallet', [WalletController::class, 'getWallet']);
 
 Route::post('/payment', [PaymentController::class, 'payment']);
 
+Route::post('/callbackUrl', [PaymentController::class, 'callbackUrl']);
 Route::get('/callbackUrl', [PaymentController::class, 'callbackUrl']);
+
 
 
 

@@ -8,5 +8,4 @@ interface BankPortal {
 
     public function Verify(Array $data);
 
-
 }
