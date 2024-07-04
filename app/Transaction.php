@@ -12,15 +12,15 @@ class Transaction extends Model
         'date',
         'time',
         'transaction_type',
-        'price',
+        'amount',
         'status',
         'reference_code',
         'trackId'
 
     ];
 
-    const SUCCESSFUL = "0";
-    const UNSUCCESSFUL = "1";
+    const SUCCESSFUL = "1";
+    const UNSUCCESSFUL = "0";
     const DIRECT = "direct";
     const WALLET = "wallet";
 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\BankPortal\ZibalPortal;
 use App\Models\User;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-// require 'vendor/autoload.php';
 use GuzzleHttp\Client;
 
 class PaymentController extends Controller
@@ -25,60 +25,87 @@ class PaymentController extends Controller
                 'message' => 'Validation Error',
                 'errors' => $validator->errors(),
             ], 400);
-        $data = [
-            'mobile' => $request->mobile,
-            'callbackUrl' => "http://127.0.0.1:8000/api/getWallet",
-            'amount' => $request->amount,
-            'merchant' => "zibal",
-        ];
-        $client = new Client([
-            'base_uri' => 'https://gateway.zibal.ir/v1/request',
-        ]);
-        $response = $client->post('/request', [
-            'json' => $data,
-        ]);
 
-        $responseBody = json_decode($response->getBody()->getContents(), true);
-
-        if($responseBody["result"] == 100)
-        {
-
+        if(true){
+            $Zibal = New ZibalPortal;
+            $responseBody =
+                $Zibal->Request([
+                    'mobile' => $request->mobile,
+                    'callbackUrl' => "http://127.0.0.1:8000/api/callbackUrl",
+                    'amount' => $request->amount,
+                ]);
+        }
+        if($responseBody){
             $transaction = Transaction::create([
                 'wallet_id' => $request->wallet_id,
                 'transaction_type' => Transaction::DIRECT,
                 'status' => Transaction::UNSUCCESSFUL,
-                'price' => $request->amount,
+                'amount' => $request->amount,
                 'trackId' => $responseBody["trackId"]
             ]);
-
-            $trackId = $responseBody["trackId"];
-            $baseUrl = 'https://gateway.zibal.ir/start/';
-            $paymentPageUrl = $baseUrl . $trackId;
             return response()->json([
                 'status' => true,
-                'paymentPageUrl' => $paymentPageUrl
+                'paymentPageUrl' => $responseBody['paymentPageUrl']
             ],201 );
+        }
+    }
 
-        }else
+    public function callbackUrl(Request $request)
+    {
+        $transaction = Transaction::where('trackId', $request->trackId)->first();
+        if($request->success){
+            $data = [
+                'trackId' => $request->trackId,
+                'merchant' => 'zibal'
+            ];
+            $client = new Client([
+                'base_uri' => 'https://gateway.zibal.ir/v1/verify',
+            ]);
+
+            $response = $client->post('/verify', [
+                'json' => $data,
+            ]);
+            $responseBody = json_decode($response->getBody()->getContents(), true);
+
+            if($responseBody["result"] == 100)
+            {
+                $transaction->status = Transaction::SUCCESSFUL;
+                $transaction->reference_code = $responseBody["refNumber"];
+                $transaction->save();
+
+                $stock = ($transaction->wallet->stock) + ($transaction->amount);
+                $transaction->wallet->stock = $stock;
+                $transaction->wallet->save();
+
+                return response()->json([
+                    'status' => true,
+                    'amount' => $responseBody["amount"],
+                    'message' => $responseBody["message"],
+                    'result' => $responseBody["result"],
+                    'refNumber' => $responseBody["refNumber"],
+                    'txStatus' => $responseBody["status"]
+
+                ],201 );
+            }
+            else
+                return response()->json([
+                    'status' => false,
+                    'txStatus' => $responseBody["status"],
+                    'message' => $responseBody["message"],
+                    'result' => $responseBody["result"],
+                ],400 )
+            ;
+        }else{
             return response()->json([
                 'status' => false,
-            ],201 );
-
+                'message' => "عملیات ناموفق",
+            ],400 );
+        }
     }
 
 
 
 
-    // public function startPaying()
-    // {
-
-    //     $trackId = '3662736270';
-    //     $baseUrl = 'https://gateway.zibal.ir/start/';
-    //     $paymentPageUrl = $baseUrl . $trackId;
-
-    //     return redirect($paymentPageUrl);
-
-    // }
 
 
 
@@ -91,41 +118,4 @@ class PaymentController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    // public function zibal(Request $request)
-    // {
-    //     //ثبت تراکنش
-    //     $validator = Validator::make($request->all(), [
-    //         'mobile' => 'required|numeric|digits:11',
-    //         'wallet_id' => 'required|numeric',
-    //         'amount' => 'required|numeric'
-    //     ]);
-
-    //     if ($validator->fails())
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Validation Error',
-    //             'errors' => $validator->errors(),
-    //         ], 400);
-    //     if(User::where('mobile', $request->mobile)->first())
-    //     {
-    //         $transaction = Transaction::create([
-    //             'wallet_id' => $request->wallet_id,
-    //             'transaction_type' =>
-    //             'price' =>  $request->amount,
-    //             'status' =>
-    //             'reference_code' =>
-    //         ]);
-    //     }
-    // }
 }
