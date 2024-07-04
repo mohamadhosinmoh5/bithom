@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\fileUploadController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ticketController;
 use App\Http\Controllers\WalletController;
@@ -61,6 +62,9 @@ Route::get('/getProjects', [ProjectController::class, 'getProjects']);
 Route::get('/getProject', [ProjectController::class, 'getProject']);
 
 Route::get('/getWallet', [WalletController::class, 'getWallet']);
+
+Route::post('/payment', [PaymentController::class, 'payWithZibal']);
+
 
 
 
