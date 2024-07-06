@@ -53,29 +53,23 @@ class PaymentController extends Controller
     public function callbackUrl(Request $request)
     {
         $transaction = Transaction::where('trackId', $request->trackId)->first();
+        if (!$transaction) {
+            return response()->json(['error' => 'Transaction not found'], 404);
+        }
         if($request->success){
-            $data = [
-                'trackId' => $request->trackId,
-                'merchant' => 'zibal'
-            ];
-            $client = new Client([
-                'base_uri' => 'https://gateway.zibal.ir/v1/verify',
-            ]);
-
-            $response = $client->post('/verify', [
-                'json' => $data,
-            ]);
-            $responseBody = json_decode($response->getBody()->getContents(), true);
+            $Verify = New ZibalPortal;
+            $responseBody =
+                $Verify->Verify([
+                    'trackId' => $request->trackId,
+                ]);
 
             if($responseBody["result"] == 100)
             {
                 $transaction->status = Transaction::SUCCESSFUL;
                 $transaction->reference_code = $responseBody["refNumber"];
                 $transaction->save();
-
-                $stock = ($transaction->wallet->stock) + ($transaction->amount);
-                $transaction->wallet->stock = $stock;
-                $transaction->wallet->save();
+                
+                $this->increment($transaction);
 
                 return response()->json([
                     'status' => true,
@@ -84,7 +78,6 @@ class PaymentController extends Controller
                     'result' => $responseBody["result"],
                     'refNumber' => $responseBody["refNumber"],
                     'txStatus' => $responseBody["status"]
-
                 ],201 );
             }
             else
@@ -101,6 +94,28 @@ class PaymentController extends Controller
                 'message' => "عملیات ناموفق",
             ],400 );
         }
+    }
+
+    public function increment($data)
+    {
+        $stock = ($data->wallet->stock) + ($data->amount);
+        $data->wallet->stock = $stock;
+        $data->wallet->save();
+
+        $data->operation_type = Transaction::INCREMENT;
+        $data->save();
+    }
+
+    public function decrement($data)
+    {
+
+        $stock = ($data->wallet->stock) - ($data->amount);
+        $data->wallet->stock = $stock;
+        $data->wallet->save();
+
+        $data->operation_type = Transaction::DECREMENT;
+        $data->save();
+
     }
 
 

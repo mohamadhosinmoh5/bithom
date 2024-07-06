@@ -41,6 +41,20 @@ class ZibalPortal implements BankPortal{
     public function Verify(Array $data)
     {
 
+        $data['merchant'] = $this->merchant;
+
+        $client = new Client([
+            'base_uri' => $this->verify,
+        ]);
+
+        $response = $client->post('/verify', [
+            'json' => $data,
+        ]);
+
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+
+        return $responseBody;
+
     }
 }
 

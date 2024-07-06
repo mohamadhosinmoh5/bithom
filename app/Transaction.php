@@ -15,7 +15,8 @@ class Transaction extends Model
         'amount',
         'status',
         'reference_code',
-        'trackId'
+        'trackId',
+        'operation_type'
 
     ];
 
@@ -23,6 +24,9 @@ class Transaction extends Model
     const UNSUCCESSFUL = "0";
     const DIRECT = "direct";
     const WALLET = "wallet";
+
+    const INCREMENT = "increment";
+    const DECREMENT = "decrement";
 
 
     public function wallet()
