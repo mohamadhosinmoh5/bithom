@@ -26,16 +26,10 @@ class BuyController extends Controller
         $project = Project::where('id', $request->id)
             ->first();
 
-        $product = Product::create([
-            'user_id' => $project->user_id,
-            'project_id' => $request->id,
-            'wallet_id' =>
-
-
-        ]);
-
         $brickPrice = $this->brickPrice($project);
-
+        $brickNumber = $this->brickNumber($project , $request->amount);
+        $investmentMeterage = $this->investmentMeterage($project , $request->amount);
+        $investmentPrice = $this->investmentPrice($project , $request->amount);
 
         return response()->json([
             'status' => true,
@@ -43,32 +37,38 @@ class BuyController extends Controller
             'title' => $project->title,
             'baseTitle' => $project->baseTitle,
             'brickPrice' => $brickPrice,
+            'brickNumber' => $brickNumber,
+            'investmentMeterage' => $investmentMeterage,
+            'investmentPrice' => $investmentPrice,
+
+
         ], 201);
     }
 
     public function brickPrice($data)
     {
         $brickPrice = $data->price / 10000;
-        $data->product->brick_price = $brickPrice;
-        $data->save();
         return $brickPrice;
     }
 
     public function brickNumber($data ,$amount)
     {
-        $brickNumber = $amount / $data->brick_price;
-        $data->brick_number = $brickNumber;
-        $data->save();
-        return $brickNumber;
+        $brickNumber = $amount / $this->brickPrice($data);
+        return floor($brickNumber);
 
     }
 
-    public function investmentMeterage($data)
+    public function investmentMeterage($data ,$amount)
     {
-        $investmentMeterage = $data->brick_number / 10000;
-        $data->investment_meterage = $investmentMeterage;
-        $data->save();
+        $investmentMeterage = $this->brickNumber($data ,$amount) / 10000;
         return $investmentMeterage;
+
+    }
+
+    public function investmentPrice($data ,$amount)
+    {
+        $investmentPrice = $this->brickNumber($data ,$amount) * $this->brickPrice($data);
+        return $investmentPrice;
 
     }
 
