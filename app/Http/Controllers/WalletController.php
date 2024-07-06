@@ -36,4 +36,57 @@ class WalletController extends Controller
             'wallet' => $wallet
         ], 201);
     }
+
+    public function getTransactions(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'mobile' => 'required|numeric|digits:11',
+        ]);
+
+        if ($validator->fails())
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+
+
+        $user = User::where('mobile', $request->mobile)->first();
+        $transaction = $user->wallet->transaction;
+        if(empty($transaction))
+            return response()->json([
+                'status' => false,
+                'message' => ' تراکنشی برای این کاربر وجود ندارد.',
+            ], 400);
+
+        return response()->json([
+            'status' => true,
+            'transaction' => $transaction
+        ], 201);
+    }
+
+
+
+
+    // public function getWalletPage(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'mobile' => 'required|numeric|digits:11',
+    //     ]);
+
+    //     if ($validator->fails())
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Validation Error',
+    //             'errors' => $validator->errors(),
+    //         ], 400);
+
+
+    //     $user = User::where('mobile', $request->mobile)->first();
+    //     $this->getWallet($user);
+    //     $this->getTransactions($user);
+
+    // }
+
+
 }

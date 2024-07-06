@@ -44,10 +44,27 @@ class ProjectController extends Controller
                 ->with('projectFile')
                 ->first();
 
+        // $remainingMeterage = $this->remainingMeterage($project);
+
         return response()->json([
             'status' => true,
             'project' => $project,
         ], 201);
     }
 
+
+    // public function remainingMeterage($data)
+    // {
+    //     //متراژباقی مانده = متراژ خریدشده - متراژمفید
+
+    //     $data->meterage - ;
+    // }
+
+    // public function realizedProfit($data)
+    // {
+    //     //سود محقق شده
+    //     $data->price - ;
+
+
+    // }
 }

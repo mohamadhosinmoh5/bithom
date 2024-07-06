@@ -14,10 +14,11 @@ class Product extends Model
         'user_id',
         'date',
         'time',
-        'khesht',
-        'khesht_price',
+        'brick_number',
+        'brick_price',
         'wallet_id',
-        'investment_price'
+        'investment_price',
+        'investment_meterage'
     ];
 
     public function user()

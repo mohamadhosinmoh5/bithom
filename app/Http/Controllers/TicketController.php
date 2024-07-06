@@ -176,40 +176,10 @@ class TicketController extends Controller
             'message' => 'پاسخ ثبت شد',
             'ticket_id' => $answer->ticket_id,
             'answer_id' => $answer->id,
-            
+
         ], 201);
     }
 
-    // public function messageAnswer(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'message' =>'required',
-    //         'ticket_id' => 'required',
-    //         'answer_id' => 'required'
-    //     ]);
 
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Validation Error',
-    //             'errors' => $validator->errors(),
-    //         ], 400);
-    //     }
-    //     // $ticket = Ticket::where('id' , $request->ticket_id)->first();
-    //     $ticket = Ticket::findOrFail($request->ticket_id);
-
-    //     $message = Message::create([
-    //         'message' => $request->message,
-    //         'ticket_id' => $ticket->id,
-    //         'answer_id' =>$request->answer_id,
-    //         'user_id' => $ticket->user_id
-    //     ]);
-
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'پاسخ ثبت شد',
-
-    //     ], 201);
-    // }
 
 }

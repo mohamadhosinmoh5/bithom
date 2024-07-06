@@ -36,7 +36,8 @@ class ZibalPortal implements BankPortal{
             ];
         }else
             return false;
-        }
+    }
+    
 
     public function Verify(Array $data)
     {

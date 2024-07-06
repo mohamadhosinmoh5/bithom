@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\BuyController;
 use App\Http\Controllers\fileUploadController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProjectController;
@@ -60,8 +61,12 @@ Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']
 
 Route::get('/getProjects', [ProjectController::class, 'getProjects']);
 Route::get('/getProject', [ProjectController::class, 'getProject']);
+Route::post('/getBuyProject', [BuyController::class, 'buy']);
+
 
 Route::get('/getWallet', [WalletController::class, 'getWallet']);
+Route::get('/getTransactions', [WalletController::class, 'getTransactions']);
+
 
 Route::post('/payment', [PaymentController::class, 'payment']);
 

@@ -68,7 +68,7 @@ class PaymentController extends Controller
                 $transaction->status = Transaction::SUCCESSFUL;
                 $transaction->reference_code = $responseBody["refNumber"];
                 $transaction->save();
-                
+
                 $this->increment($transaction);
 
                 return response()->json([
@@ -117,6 +117,8 @@ class PaymentController extends Controller
         $data->save();
 
     }
+
+
 
 
 

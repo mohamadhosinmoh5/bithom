@@ -28,7 +28,8 @@ class Project extends Model
         'investment_status',
         'remaining_area',
         'start_price',
-        'supply_status_code'
+        'supply_status_code',
+        'baseTitle'
     ];
 
 
