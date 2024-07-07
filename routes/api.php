@@ -49,6 +49,9 @@ Route::post('/userPanel/changePassword', [UserController::class, 'chengePassword
 Route::get('/userPanel/userInfo', [UserController::class, 'getUserInfo']);
 Route::post('/userPanel/userUpdate', [UserController::class, 'userUpdate']);
 
+Route::get('/userPanel/userFile', [UserController::class, 'getUserFile']);
+
+
 Route::post('/userPanel/auth', [FileUploadController::class, 'UploadFiles']);
 
 Route::get('/userPanel/getTicket', [TicketController::class, 'getTickets']);

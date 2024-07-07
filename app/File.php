@@ -13,5 +13,10 @@ class File extends Model
         'file',
     ];
 
+    public function identityInformation()
+    {
+        return $this->hasOne(UserIdentityInformations::class, 'nationalCard_file_id', 'id');
+    }
+
 
 }

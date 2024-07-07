@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\File;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -147,6 +147,8 @@ class UserController extends Controller
                 if (!empty($request->nationalCard_file_id)){
                     $uii->nationalCard_file_id = $request->nationalCard_file_id;
                     $uii->nationalCard_file_status =  $uii::AWAITING_CONFIRMATION;
+                    $uii->user_id = $user->id;
+                    $uii->save();
                     return response()->json([
                         'status' => true,
                         'nationalCard_file_status' => $uii->nationalCard_file_status
@@ -155,6 +157,8 @@ class UserController extends Controller
                 if (!empty($request->video_file_id)){
                     $uii->video_file_id = $request->video_file_id;
                     $uii->video_file_status = $uii::AWAITING_CONFIRMATION;
+                    $uii->user_id = $user->id;
+                    $uii->save();
                     return response()->json([
                         'status' => true,
                         'video_file_status' => $uii->video_file_status
@@ -164,17 +168,62 @@ class UserController extends Controller
                 {
                     $uii->profile_file_id = $request->profile_file_id;
                     $uii->profile_file_status = $uii::AWAITING_CONFIRMATION;
+                    $uii->user_id = $user->id;
+                    $uii->save();
                     return response()->json([
                         'status' => true,
                         'profile_file_status' => $uii->profile_file_status
                     ], 201);
                 }
-                $uii->user_id = $user->id;
-                $uii->save();
-
 
             }
         }
+    }
+
+    public function getUserFile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'mobile' => 'required|numeric|digits:11',
+        ]);
+
+        if ($validator->fails())
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+
+
+        $user = User::where('mobile', $request->mobile)->first();
+        $identity = $user->identityInformation;
+        if($identity->video_file_id == null && $identity->nationalCard_file_id == null)
+            return response()->json([
+                'status' => false,
+                'message' => 'احراز هویت نشده اید'
+            ], 201);
+
+        if($identity->video_file_id == null){
+            $id = $identity->nationalCard_file_id;
+            $url = File::findOrFail($id)->url;
+            return response()->json([
+                'status' => true,
+                'nationalCard_file_status' => $identity->nationalCard_file_status,
+                'nationalCard_file_url' => $url
+            ], 201);
+        }
+
+        if($identity->nationalCard_file_id == null){
+            $id = $identity->video_file_id;
+            $url = File::findOrFail($id)->url;
+            return response()->json([
+                'status' => true,
+                'video_file_status' => $identity->video_file_status,
+                'video_file_url' => $url
+            ], 201);
+        }
+
+        
+
     }
 
 

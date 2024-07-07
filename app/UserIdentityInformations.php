@@ -20,16 +20,22 @@ class UserIdentityInformations extends Model
         'user_id'
     ];
 
+    public const ACCEPTED = "1";
+    public const FAILED = "0";
+    public const AWAITING_CONFIRMATION = "2";
+    public const NOT_TAKEN = "3";
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public const ACCEPTED = "1";
-    public const FAILED = "0";
-    public const AWAITING_CONFIRMATION = "2";
-    public const NOT_TAKEN = "3";
+    public function file()
+    {
+        return $this->belongsTo(File::class, 'nationalCard_file_id', 'id');
+    }
+
+
 
 
 

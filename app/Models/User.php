@@ -49,7 +49,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function identityInformation()
     {
-        return $this->belongsTo(UserIdentityInformations::class, 'user_id', 'id');
+        return $this->hasOne(UserIdentityInformations::class, 'user_id', 'id');
     }
 
     public function answer()
