@@ -21,20 +21,19 @@ class AssetManagementController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
 
-
         $user = User::where('mobile', $request->mobile)->first();
-        $wallet = $user->wallet;
-        if(empty($wallet))
-            return response()->json([
-                'status' => false,
-                'message' => 'کیف پولی برای این کاربر وجود ندارد.',
-            ], 400);
+
+        // if(empty($wallet))
+        //     return response()->json([
+        //         'status' => false,
+        //         'stock' => $user->wallet->stock,
+        //     ], 400);
 
         return response()->json([
             'status' => true,
-            'wallet' => $wallet
+            'stock' => $user->wallet->stock,
+            'investmentPrice' => $user->investmentPrice
         ], 201);
-
 
     }
 

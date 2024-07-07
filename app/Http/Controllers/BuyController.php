@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Product;
 use App\Project;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class BuyController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required|numeric',
             'amount' => 'required|numeric',
+            'mobile' => 'required|numeric|digits:11',
         ]);
 
         if ($validator->fails())
@@ -34,8 +36,9 @@ class BuyController extends Controller
         $tax = $this->tax($project , $request->amount);
         $payable = $this->payable($project , $request->amount);
 
-
-
+        $user = User::where('mobile', $request->mobile)->first();
+        $user->investmentPrice = $investmentPrice;
+        $user->save();
 
         return response()->json([
             'status' => true,
@@ -49,8 +52,11 @@ class BuyController extends Controller
             'wage' => $wage,
             'tax' => $tax,
             'payable' => $payable,
+            'wallet' => $user->wallet->stock
 
         ], 201);
+
+
     }
 
     public function brickPrice($data)
@@ -63,21 +69,18 @@ class BuyController extends Controller
     {
         $brickNumber = $amount / $this->brickPrice($data);
         return floor($brickNumber);
-
     }
 
     public function investmentMeterage($data ,$amount)
     {
         $investmentMeterage = $this->brickNumber($data ,$amount) / 10000;
         return $investmentMeterage;
-
     }
 
     public function investmentPrice($data ,$amount)
     {
         $investmentPrice = $this->brickNumber($data ,$amount) * $this->brickPrice($data);
         return $investmentPrice;
-
     }
 
     public function wage($data ,$amount)

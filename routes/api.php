@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\AssetManagementController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\fileUploadController;
 use App\Http\Controllers\PaymentController;
@@ -67,11 +68,16 @@ Route::post('/getBuyProject', [BuyController::class, 'buy']);
 Route::get('/getWallet', [WalletController::class, 'getWallet']);
 Route::get('/getTransactions', [WalletController::class, 'getTransactions']);
 
+Route::get('/getMyAssets', [AssetManagementController::class, 'myAssets']);
+
+
 
 Route::post('/payment', [PaymentController::class, 'payment']);
 
 Route::post('/callbackUrl', [PaymentController::class, 'callbackUrl']);
 Route::get('/callbackUrl', [PaymentController::class, 'callbackUrl']);
+
+
 
 
 

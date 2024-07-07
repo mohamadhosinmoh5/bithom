@@ -25,7 +25,6 @@ class FileUploadController extends Controller
         if ($request->hasFile('file')) {
             $files = $request->file('file');
 
-
             foreach ($files as $file) {
                 $fileName = time(). '-'. $file->getClientOriginalName();
                 $type[] = $file->getMimeType();
@@ -40,6 +39,7 @@ class FileUploadController extends Controller
         {
             $file = new File;
             $file->url = $uploadedFile;
+
             $file->type = $type[array_search($uploadedFile, $uploadedFiles)];
             $file->save();
             $uploads[] = [

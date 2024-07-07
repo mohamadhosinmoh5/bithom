@@ -43,6 +43,7 @@ class ProjectController extends Controller
         $project = Project::where('id', $request->id)
                 ->with('projectFile')
                 ->with('unit')
+                ->with('projectImg')
                 ->first();
 
         // $remainingMeterage = $this->remainingMeterage($project);
@@ -50,6 +51,7 @@ class ProjectController extends Controller
         return response()->json([
             'status' => true,
             'project' => $project,
+
         ], 201);
     }
 
