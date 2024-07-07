@@ -42,7 +42,8 @@ class User extends \TCG\Voyager\Models\User
         'componyCode',
         'inviteCode',
         'remember_token',
-        'investmentPrice'
+        'investmentPrice',
+        'totalProfit'
 
     ];
 

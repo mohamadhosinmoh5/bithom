@@ -147,23 +147,32 @@ class UserController extends Controller
                 if (!empty($request->nationalCard_file_id)){
                     $uii->nationalCard_file_id = $request->nationalCard_file_id;
                     $uii->nationalCard_file_status =  $uii::AWAITING_CONFIRMATION;
+                    return response()->json([
+                        'status' => true,
+                        'nationalCard_file_status' => $uii->nationalCard_file_status
+                    ], 201);
                 }
                 if (!empty($request->video_file_id)){
                     $uii->video_file_id = $request->video_file_id;
                     $uii->video_file_status = $uii::AWAITING_CONFIRMATION;
+                    return response()->json([
+                        'status' => true,
+                        'video_file_status' => $uii->video_file_status
+                    ], 201);
                 }
                 if (!empty($request->profile_file_id))
                 {
                     $uii->profile_file_id = $request->profile_file_id;
                     $uii->profile_file_status = $uii::AWAITING_CONFIRMATION;
+                    return response()->json([
+                        'status' => true,
+                        'profile_file_status' => $uii->profile_file_status
+                    ], 201);
                 }
-
                 $uii->user_id = $user->id;
                 $uii->save();
 
-                return response()->json([
-                    'status' => true,
-                ], 201);
+
             }
         }
     }

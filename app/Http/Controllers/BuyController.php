@@ -38,6 +38,7 @@ class BuyController extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
         $user->investmentPrice = $investmentPrice;
+        $user->totalProfit = $this->totalProfit($project , $request->amount);
         $user->save();
 
         return response()->json([
@@ -52,11 +53,9 @@ class BuyController extends Controller
             'wage' => $wage,
             'tax' => $tax,
             'payable' => $payable,
-            'wallet' => $user->wallet->stock
+            'stock' => $user->wallet->stock
 
         ], 201);
-
-
     }
 
     public function brickPrice($data)
@@ -99,6 +98,12 @@ class BuyController extends Controller
     {
         $payable = $this->tax($data ,$amount) + $this->wage($data ,$amount) + $this->investmentPrice($data ,$amount);
         return $payable;
+    }
+
+    public function totalProfit($data ,$amount)
+    {
+        $totalProfit = (($data->currentPrice - $this->investmentPrice($data ,$amount)) * 100 ) / $this->investmentPrice($data ,$amount);
+        return $totalProfit;
     }
 
 

@@ -23,27 +23,22 @@ class AssetManagementController extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
 
-        // if(empty($wallet))
-        //     return response()->json([
-        //         'status' => false,
-        //         'stock' => $user->wallet->stock,
-        //     ], 400);
-
         return response()->json([
             'status' => true,
             'stock' => $user->wallet->stock,
-            'investmentPrice' => $user->investmentPrice
+            'investmentPrice' => $user->investmentPrice,
         ], 201);
 
     }
 
+
+
+
     public function trades()
     {
-
     }
 
     public function orders()
     {
-
     }
 }

@@ -12,13 +12,13 @@ class Product extends Model
         'meterage',
         'project_id',
         'user_id',
-        'date',
-        'time',
-        'brick_number',
-        'brick_price',
-        'wallet_id',
-        'investment_price',
-        'investment_meterage'
+        // 'date',
+        // 'time',
+        // 'brick_number',
+        // 'brick_price',
+        // 'wallet_id',
+        // 'investment_price',
+        // 'investment_meterage'
     ];
 
     public function user()
