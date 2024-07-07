@@ -12,4 +12,9 @@ class ProjectConfig extends Model
         'fee_percentage'
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(projectConfig::class, 'project_id', 'id');
+    }
+
 }

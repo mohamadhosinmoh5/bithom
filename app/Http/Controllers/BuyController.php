@@ -30,6 +30,12 @@ class BuyController extends Controller
         $brickNumber = $this->brickNumber($project , $request->amount);
         $investmentMeterage = $this->investmentMeterage($project , $request->amount);
         $investmentPrice = $this->investmentPrice($project , $request->amount);
+        $wage = $this->wage($project , $request->amount);
+        $tax = $this->tax($project , $request->amount);
+        $payable = $this->payable($project , $request->amount);
+
+
+
 
         return response()->json([
             'status' => true,
@@ -40,7 +46,9 @@ class BuyController extends Controller
             'brickNumber' => $brickNumber,
             'investmentMeterage' => $investmentMeterage,
             'investmentPrice' => $investmentPrice,
-
+            'wage' => $wage,
+            'tax' => $tax,
+            'payable' => $payable,
 
         ], 201);
     }
@@ -70,6 +78,24 @@ class BuyController extends Controller
         $investmentPrice = $this->brickNumber($data ,$amount) * $this->brickPrice($data);
         return $investmentPrice;
 
+    }
+
+    public function wage($data ,$amount)
+    {
+        $wage = $this->investmentPrice($data ,$amount) * ($data->projectConfig->fee_percentage) / 100;
+        return ceil($wage);
+    }
+
+    public function tax($data ,$amount)
+    {
+        $tax = $this->wage($data ,$amount) * ($data->projectConfig->tax_percentage) / 100;
+        return ceil($tax);
+
+    }
+    public function payable($data ,$amount)
+    {
+        $payable = $this->tax($data ,$amount) + $this->wage($data ,$amount) + $this->investmentPrice($data ,$amount);
+        return $payable;
     }
 
 

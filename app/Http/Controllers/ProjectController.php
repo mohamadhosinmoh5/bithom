@@ -42,6 +42,7 @@ class ProjectController extends Controller
 
         $project = Project::where('id', $request->id)
                 ->with('projectFile')
+                ->with('unit')
                 ->first();
 
         // $remainingMeterage = $this->remainingMeterage($project);

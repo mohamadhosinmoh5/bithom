@@ -62,4 +62,9 @@ class Project extends Model
         return $this->hasMany(ProjectFile::class, 'project_id', 'id');
     }
 
+    public function projectConfig()
+    {
+        return $this->hasOne(projectConfig::class, 'project_id', 'id');
+    }
+
 }
