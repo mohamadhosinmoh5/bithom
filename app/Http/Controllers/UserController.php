@@ -206,7 +206,6 @@ class UserController extends Controller
             $id = $identity->nationalCard_file_id;
             $url = File::findOrFail($id)->url;
             return response()->json([
-                'status' => true,
                 'nationalCard_file_status' => $identity->nationalCard_file_status,
                 'nationalCard_file_url' => $url
             ], 201);
@@ -216,7 +215,6 @@ class UserController extends Controller
             $id = $identity->video_file_id;
             $url = File::findOrFail($id)->url;
             return response()->json([
-                'status' => true,
                 'video_file_status' => $identity->video_file_status,
                 'video_file_url' => $url
             ], 201);
