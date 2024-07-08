@@ -221,8 +221,10 @@ class UserController extends Controller
                 'video_file_url' => $url
             ], 201);
         }
-
-        
+        else
+            return response()->json([
+                'status' => true,
+            ], 201);
 
     }
 
