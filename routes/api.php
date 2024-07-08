@@ -65,7 +65,7 @@ Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']
 
 Route::get('/getProjects', [ProjectController::class, 'getProjects']);
 Route::get('/getProject', [ProjectController::class, 'getProject']);
-Route::post('/getBuyProject', [BuyController::class, 'buy']);
+Route::post('/getBuyIformation', [BuyController::class, 'getBuyIformation']);
 
 
 Route::get('/getWallet', [WalletController::class, 'getWallet']);
@@ -76,6 +76,9 @@ Route::get('/getMyAssets', [AssetManagementController::class, 'myAssets']);
 
 
 Route::post('/payment', [PaymentController::class, 'payment']);
+
+Route::post('/buy', [BuyController::class, 'buy']);
+
 
 Route::post('/callbackUrl', [PaymentController::class, 'callbackUrl']);
 Route::get('/callbackUrl', [PaymentController::class, 'callbackUrl']);

@@ -12,6 +12,9 @@ use GuzzleHttp\Client;
 
 class PaymentController extends Controller
 {
+    public $usePaymentController = false;
+    public $payumentProductId = 0;
+
     public function Payment(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -26,14 +29,23 @@ class PaymentController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
 
+
+            $requestData = [
+                'mobile' => $request->mobile,
+                'amount' => $request->amount,
+            ];
+
+            if($this->usePaymentController){
+               // $requestData['callbackUrl'] =  "http://127.0.0.1:8000/api/callbackUrl/?payumentProductId=$this->payumentProductId";
+
+                $requestData['callbackUrl'] =  "http://127.0.0.1:8000/api/callbackUrl/?paymentProductId=$this->payumentProductId";
+            }else{
+                $requestData['callbackUrl'] =  "http://127.0.0.1:8000/api/callbackUrl";}
+
         if(true){
             $Zibal = New ZibalPortal;
             $responseBody =
-                $Zibal->Request([
-                    'mobile' => $request->mobile,
-                    'callbackUrl' => "http://127.0.0.1:8000/api/callbackUrl",
-                    'amount' => $request->amount,
-                ]);
+                $Zibal->Request($requestData);
         }
         if($responseBody){
             $transaction = Transaction::create([
@@ -43,11 +55,26 @@ class PaymentController extends Controller
                 'amount' => $request->amount,
                 'trackId' => $responseBody["trackId"]
             ]);
-            return response()->json([
-                'status' => true,
-                'paymentPageUrl' => $responseBody['paymentPageUrl']
-            ],201 );
+
+            if($this->usePaymentController){
+                return[
+                    'status' => true,
+                    'paymentPageUrl' => $responseBody['paymentPageUrl'],
+                    'trackId' => $responseBody["trackId"]
+
+                ];
+
+            }else{
+                return response()->json([
+                    'status' => true,
+                    'paymentPageUrl' => $responseBody['paymentPageUrl'],
+                    'trackId' => $responseBody["trackId"]
+
+                ],201 );
+
+            }
         }
+        dd("خطای درگاه");
     }
 
     public function callbackUrl(Request $request)
@@ -94,6 +121,28 @@ class PaymentController extends Controller
                 'message' => "عملیات ناموفق",
             ],400 );
         }
+
+
+    //     if($responseBody["result"] == 100)
+    //     {
+    //         $transaction->status = Transaction::SUCCESSFUL;
+    //         $transaction->reference_code = $responseBody["refNumber"];
+    //         $transaction->save();
+
+    //         $this->increment($transaction);
+    //         if(array_key_exists('payumentProductId',$_GET)){
+    //             $payumentProductId = $_GET['payumentProductId'];
+    //             return redirect("/payment/?transaction_id=$transaction->id,product_id=$payumentProductId");
+    //         }
+    //         else
+    //             return redirect("/payment/?transaction_id=$transaction->id");
+    //     }
+    // }else{
+    //     return response()->json([
+    //         'status' => false,
+    //         'message' => "عملیات ناموفق",
+    //     ],400 );
+    // }
     }
 
     public function increment($data)
@@ -106,17 +155,7 @@ class PaymentController extends Controller
         $data->save();
     }
 
-    public function decrement($data)
-    {
 
-        $stock = ($data->wallet->stock) - ($data->amount);
-        $data->wallet->stock = $stock;
-        $data->wallet->save();
-
-        $data->operation_type = Transaction::DECREMENT;
-        $data->save();
-
-    }
 
 
 

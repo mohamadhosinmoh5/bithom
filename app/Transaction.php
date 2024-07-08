@@ -16,7 +16,8 @@ class Transaction extends Model
         'status',
         'reference_code',
         'trackId',
-        'operation_type'
+        'operation_type',
+        'project_id'
 
     ];
 
@@ -32,6 +33,12 @@ class Transaction extends Model
     public function wallet()
     {
         return $this->belongsTo(Wallet::class, 'wallet_id' ,'id');
+    }
+
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id' ,'id');
     }
 
 }
