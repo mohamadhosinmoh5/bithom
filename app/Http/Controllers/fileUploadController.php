@@ -30,7 +30,7 @@ class FileUploadController extends Controller
                 $type[] = $file->getMimeType();
                 $destinationPath = public_path('upload/files/');
                 $file->move($destinationPath, $fileName);
-                $uploadedFiles[] = $fileName;
+                $uploadedFiles[] = 'upload/files/'.$fileName;
             }
         }
 
