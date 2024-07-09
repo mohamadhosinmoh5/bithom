@@ -39,12 +39,11 @@ class Project extends Model
     const FINISHED = "2";
 
 
-
-
-    public function images()
+    public function file()
     {
-        return $this->hasMany(File::class, 'project_id', 'id');
+        return $this->hasMany(File::class, 'type_id', 'id');
     }
+
 
 
 
@@ -69,24 +68,9 @@ class Project extends Model
         return $this->hasMany(Unit::class, 'project_id', 'id');
     }
 
-    public function file()
-    {
-        return $this->hasMany(File::class, 'project_id', 'id');
-    }
-
-    public function projectFile()
-    {
-        return $this->hasMany(ProjectFile::class, 'project_id', 'id');
-    }
-
     public function projectConfig()
     {
         return $this->hasOne(projectConfig::class, 'project_id', 'id');
-    }
-
-    public function projectImg()
-    {
-        return $this->hasMany(ProjectImg::class, 'project_id', 'id');
     }
 
 

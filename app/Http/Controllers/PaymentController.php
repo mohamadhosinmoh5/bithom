@@ -90,59 +90,60 @@ class PaymentController extends Controller
                     'trackId' => $request->trackId,
                 ]);
 
-            if($responseBody["result"] == 100)
-            {
-                $transaction->status = Transaction::SUCCESSFUL;
-                $transaction->reference_code = $responseBody["refNumber"];
-                $transaction->save();
+        //     if($responseBody["result"] == 100)
+        //     {
+        //         $transaction->status = Transaction::SUCCESSFUL;
+        //         $transaction->reference_code = $responseBody["refNumber"];
+        //         $transaction->save();
 
-                $this->increment($transaction);
+        //         $this->increment($transaction);
 
-                return response()->json([
-                    'status' => true,
-                    'amount' => $responseBody["amount"],
-                    'message' => $responseBody["message"],
-                    'result' => $responseBody["result"],
-                    'refNumber' => $responseBody["refNumber"],
-                    'txStatus' => $responseBody["status"]
-                ],201 );
+        //         return response()->json([
+        //             'status' => true,
+        //             'amount' => $responseBody["amount"],
+        //             'message' => $responseBody["message"],
+        //             'result' => $responseBody["result"],
+        //             'refNumber' => $responseBody["refNumber"],
+        //             'txStatus' => $responseBody["status"]
+        //         ],201 );
+        //     }
+        //     else
+        //         return response()->json([
+        //             'status' => false,
+        //             'txStatus' => $responseBody["status"],
+        //             'message' => $responseBody["message"],
+        //             'result' => $responseBody["result"],
+        //         ],400 )
+        //     ;
+        // }else{
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => "عملیات ناموفق",
+        //     ],400 );
+        // }
+
+
+        if($responseBody["result"] == 100)
+        {
+            $transaction->status = Transaction::SUCCESSFUL;
+            $transaction->reference_code = $responseBody["refNumber"];
+            $transaction->save();
+
+            $this->increment($transaction);
+            if(array_key_exists('payumentProductId',$_GET)){
+                $payumentProductId = $_GET['payumentProductId'];
+
+                return redirect(url('')."/wallet/detail-payment/?transaction_id=$transaction->id,product_id=$payumentProductId");
             }
             else
-                return response()->json([
-                    'status' => false,
-                    'txStatus' => $responseBody["status"],
-                    'message' => $responseBody["message"],
-                    'result' => $responseBody["result"],
-                ],400 )
-            ;
-        }else{
-            return response()->json([
-                'status' => false,
-                'message' => "عملیات ناموفق",
-            ],400 );
+                return redirect(url('')."/wallet/detail-payment/?transaction_id=$transaction->id");
         }
-
-
-    //     if($responseBody["result"] == 100)
-    //     {
-    //         $transaction->status = Transaction::SUCCESSFUL;
-    //         $transaction->reference_code = $responseBody["refNumber"];
-    //         $transaction->save();
-
-    //         $this->increment($transaction);
-    //         if(array_key_exists('payumentProductId',$_GET)){
-    //             $payumentProductId = $_GET['payumentProductId'];
-    //             return redirect("/payment/?transaction_id=$transaction->id,product_id=$payumentProductId");
-    //         }
-    //         else
-    //             return redirect("/payment/?transaction_id=$transaction->id");
-    //     }
-    // }else{
-    //     return response()->json([
-    //         'status' => false,
-    //         'message' => "عملیات ناموفق",
-    //     ],400 );
-    // }
+    }else{
+        return response()->json([
+            'status' => false,
+            'message' => "عملیات ناموفق",
+        ],400 );
+    }
     }
 
     public function increment($data)

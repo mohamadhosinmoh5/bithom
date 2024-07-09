@@ -25,6 +25,13 @@ class File extends Model
     const PROJECT = "project";
 
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'type_id', 'id');
+    }
+
+
+
 
     public function identityInformation()
     {
