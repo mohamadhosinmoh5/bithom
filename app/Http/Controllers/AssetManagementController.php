@@ -23,29 +23,31 @@ class AssetManagementController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
 
+        $buyController = New BuyController;
+
+
         $user = User::where('mobile', $request->mobile)->first();
 
         $transactions = $user->wallet->transaction;
 
-         // میزان سرمایه گذاری = مجموع مقادیر داخل تراکنش های که مربوط به یک پروژه اند.
-        $investmentAmount = 0;
-        foreach($transactions as $transaction){
-            if($transaction->project_id != null){
-                $investmentAmount += $transaction->amount;
-            }
-        }
-
         $totalProfit = 0;
-        foreach($transactions as $transaction){
-            
-        }
-
-
+        $dayValues = 0;
+        $totalCost = 0;
+        $investmentAmount = 0;
         $products = [];
-        $buyController = New BuyController;
+
         foreach($transactions as $transaction){
             $product =[];
+
             if($transaction->project_id != null){
+                // میزان سرمایه گذاری = مجموع مقادیر داخل تراکنش های که مربوط به یک پروژه اند.
+                $investmentAmount += $transaction->amount;
+
+                // سودکل
+                $project = Project::findOrFail($transaction->project_id);
+                $dayValues += $project->currentPrice * $buyController->investmentMeterage($project , $transaction->amount);
+
+
                 $project = Project::findOrFail($transaction->project_id);
                 $product['title'] = $project->title;
                 $product['baseTitle'] = $project->baseTitle;
@@ -64,13 +66,20 @@ class AssetManagementController extends Controller
                 array_push($products, $product);
             }
         }
+        $totalProfit = $dayValues - $investmentAmount;
+
+
+
+
+
+
 
         return response()->json([
             'status' => true,
             'stock' => $user->wallet->stock,
             'investmentAmount' => $investmentAmount,
             'products' => $products,
-            // 'totalProfit' => $totalProfit
+            'totalProfit' => $totalProfit
         ], 201);
 
     }
