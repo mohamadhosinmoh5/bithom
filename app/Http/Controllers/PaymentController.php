@@ -133,10 +133,10 @@ class PaymentController extends Controller
             if(array_key_exists('payumentProductId',$_GET)){
                 $payumentProductId = $_GET['payumentProductId'];
 
-                return redirect(url('')."/wallet/detail-payment/?transaction_id=$transaction->id,product_id=$payumentProductId");
+                redirect(url('')."/wallet/detail-payment/?transaction_id=$transaction->id,product_id=$payumentProductId");
             }
             else
-                return redirect(url('')."/wallet/detail-payment/?transaction_id=$transaction->id");
+                redirect(url('')."/wallet/detail-payment/?transaction_id=$transaction->id");
         }
     }else{
         return response()->json([
