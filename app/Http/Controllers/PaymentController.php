@@ -90,38 +90,6 @@ class PaymentController extends Controller
                     'trackId' => $request->trackId,
                 ]);
 
-        //     if($responseBody["result"] == 100)
-        //     {
-        //         $transaction->status = Transaction::SUCCESSFUL;
-        //         $transaction->reference_code = $responseBody["refNumber"];
-        //         $transaction->save();
-
-        //         $this->increment($transaction);
-
-        //         return response()->json([
-        //             'status' => true,
-        //             'amount' => $responseBody["amount"],
-        //             'message' => $responseBody["message"],
-        //             'result' => $responseBody["result"],
-        //             'refNumber' => $responseBody["refNumber"],
-        //             'txStatus' => $responseBody["status"]
-        //         ],201 );
-        //     }
-        //     else
-        //         return response()->json([
-        //             'status' => false,
-        //             'txStatus' => $responseBody["status"],
-        //             'message' => $responseBody["message"],
-        //             'result' => $responseBody["result"],
-        //         ],400 )
-        //     ;
-        // }else{
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => "عملیات ناموفق",
-        //     ],400 );
-        // }
-
 
         if($responseBody["result"] == 100)
         {
@@ -155,6 +123,8 @@ class PaymentController extends Controller
         $data->operation_type = Transaction::INCREMENT;
         $data->save();
     }
+
+    
 
 
 

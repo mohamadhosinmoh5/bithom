@@ -23,6 +23,13 @@ class AssetManagementController extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
 
+
+        // قیمت فعلی هر خشت * تعداد خشت = ارزش روز کل سرمایه
+         $dayValue = $this->brickNumber($project , $request->amount) * ($currentPrice / 10000);
+        // سودکل
+        $totalProfit = $dayValue - $user->investmentPrice;
+
+
         return response()->json([
             'status' => true,
             'stock' => $user->wallet->stock,

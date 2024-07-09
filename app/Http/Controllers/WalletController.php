@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Transaction;
 use App\Wallet;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -34,7 +35,9 @@ class WalletController extends Controller
     public function getTransactions(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric|digits:11',
+
+            'mobile' => ($request->mobile !== null) ? 'required|numeric|digits:11' : '',
+            'transaction_id' => ($request->transaction_id !== null) ? 'required|' : '',
         ]);
 
         if ($validator->fails())
@@ -44,9 +47,15 @@ class WalletController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
 
+        if(!empty($request->mobile)){
 
-        $user = User::where('mobile', $request->mobile)->first();
-        $transaction = $user->wallet->transaction;
+            $user = User::where('mobile', $request->mobile)->first();
+            $transaction = $user->wallet->transaction;
+
+        }
+
+        if(!empty($request->transaction_id))
+            $transaction = Transaction::findOrFail($request->transaction_id);
 
         return response()->json([
             'status' => true,

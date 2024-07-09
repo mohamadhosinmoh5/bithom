@@ -16,7 +16,7 @@ class BuyController extends Controller
     public function getBuyIformation(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|numeric',
+            'project_id' => 'required|numeric',
             'amount' => 'required|numeric',
             'mobile' => 'required|numeric|digits:11',
         ]);
@@ -28,8 +28,10 @@ class BuyController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
 
-        $project = Project::where('id', $request->id)
+        $project = Project::where('id', $request->project_id)
             ->first();
+        $currentPrice = $project->currentPrice;
+
 
         $brickPrice = $this->brickPrice($project);
         $brickNumber = $this->brickNumber($project , $request->amount);
@@ -39,9 +41,10 @@ class BuyController extends Controller
         $tax = $this->tax($project , $request->amount);
         $payable = $this->payable($project , $request->amount);
 
+
+
         $user = User::where('mobile', $request->mobile)->first();
         $user->investmentPrice = $investmentPrice;
-        $user->totalProfit = $this->totalProfit($project , $request->amount);
         $user->save();
 
         return response()->json([
@@ -56,7 +59,9 @@ class BuyController extends Controller
             'wage' => $wage,
             'tax' => $tax,
             'payable' => $payable,
-            'stock' => $user->wallet->stock
+            'stock' => $user->wallet->stock,
+            
+
 
         ], 201);
     }
@@ -136,8 +141,6 @@ class BuyController extends Controller
 
 
 
-
-
     public function decrement($data , $amount)
     {
 
@@ -192,11 +195,6 @@ class BuyController extends Controller
         return $payable;
     }
 
-    public function totalProfit($data ,$amount)
-    {
-        $totalProfit = (($data->currentPrice - $this->investmentPrice($data ,$amount)) * 100 ) / $this->investmentPrice($data ,$amount);
-        return $totalProfit;
-    }
 
 
 }
