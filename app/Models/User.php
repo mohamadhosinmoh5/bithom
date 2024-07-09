@@ -43,6 +43,7 @@ class User extends \TCG\Voyager\Models\User
         'inviteCode',
         'remember_token',
         'investmentPrice',
+        
         'totalProfit'
 
     ];

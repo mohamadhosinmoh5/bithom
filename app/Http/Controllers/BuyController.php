@@ -30,8 +30,6 @@ class BuyController extends Controller
 
         $project = Project::where('id', $request->project_id)
             ->first();
-        $currentPrice = $project->currentPrice;
-
 
         $brickPrice = $this->brickPrice($project);
         $brickNumber = $this->brickNumber($project , $request->amount);
@@ -41,11 +39,8 @@ class BuyController extends Controller
         $tax = $this->tax($project , $request->amount);
         $payable = $this->payable($project , $request->amount);
 
-
-
         $user = User::where('mobile', $request->mobile)->first();
-        $user->investmentPrice = $investmentPrice;
-        $user->save();
+
 
         return response()->json([
             'status' => true,
@@ -60,7 +55,6 @@ class BuyController extends Controller
             'tax' => $tax,
             'payable' => $payable,
             'stock' => $user->wallet->stock,
-            
 
 
         ], 201);
@@ -138,6 +132,8 @@ class BuyController extends Controller
             'status' => true,
         ],201 );
     }
+
+
 
 
 
