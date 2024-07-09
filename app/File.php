@@ -9,9 +9,22 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
     protected $fillable = [
-        'type',
-        'file',
+        'id',
+        'url',
+        'model',
+        'type_id',
+        'type_file',
+        'mime_type'
     ];
+
+    const VIDEOO = "video";
+    const IMG = "image";
+    const ATTECHMENT = "attechment";
+
+    const USER = "user";
+    const PROJECT = "project";
+
+
 
     public function identityInformation()
     {

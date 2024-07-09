@@ -38,6 +38,17 @@ class Project extends Model
     const AWAITING_ESTOCKING = "1";
     const FINISHED = "2";
 
+
+
+
+    public function images()
+    {
+        return $this->hasMany(File::class, 'project_id', 'id');
+    }
+
+
+
+
     public function product()
     {
         return $this->hasMany(Product::class, 'project_id', 'id');

@@ -13,11 +13,23 @@ class FileUploadController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'file.*' => 'required|max:4048',
+            'type_file' => 'string',
+            'model' => 'string',
+            'mobile' => 'required|numeric|digits:11',
+            'project_id' => ($request->project_id !== null) ? 'required|' : '',
+
         ]);
         if ($validator->fails())
             return response()->json([
                 'error' => $validator->errors()
             ], 400);
+
+
+        $user = User::where('mobile', $request->mobile)->first();
+        if(empty($request->project_id))
+            $type_id = $user->id;
+        else
+            $type_id = $request->project_id;
 
         $uploadedFiles = [];
         $type = [];
@@ -39,8 +51,10 @@ class FileUploadController extends Controller
         {
             $file = new File;
             $file->url = $uploadedFile;
-
-            $file->type = $type[array_search($uploadedFile, $uploadedFiles)];
+            $file->model = $request->model;
+            $file->type_id = $type_id;
+            $file->type_file = $request->type_file;
+            $file->mime_type = $type[array_search($uploadedFile, $uploadedFiles)];
             $file->save();
             $uploads[] = [
                 'id' => $file->id,
