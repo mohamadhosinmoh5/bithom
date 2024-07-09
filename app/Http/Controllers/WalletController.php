@@ -25,14 +25,6 @@ class WalletController extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
         $wallet = $user->wallet;
-        if(empty($wallet))
-            return response()->json([
-                'status' => false,
-                'message' => 'کیف پولی برای این کاربر وجود ندارد.',
-                'wallet' => '0'
-
-            ], 200);
-
         return response()->json([
             'status' => true,
             'wallet' => $wallet
@@ -54,21 +46,13 @@ class WalletController extends Controller
 
 
         $user = User::where('mobile', $request->mobile)->first();
-        if(!empty($user->wallet)){
-            $transaction = $user->wallet->transaction;
-            if(empty($transaction))
-                return response()->json([
-                    'status' => false,
-                ], 400);
+        $transaction = $user->wallet->transaction;
 
-            return response()->json([
-                'status' => true,
-                'transaction' => $transaction
-            ], 201);
-        }else
-            return response()->json([
-                'status' => false,
-            ], 400);
+        return response()->json([
+            'status' => true,
+            'transaction' => $transaction
+        ], 201);
+
 
     }
 
