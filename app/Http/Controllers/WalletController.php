@@ -54,17 +54,22 @@ class WalletController extends Controller
 
 
         $user = User::where('mobile', $request->mobile)->first();
-        $transaction = $user->wallet->transaction;
-        if(empty($transaction))
+        if(!empty($user->wallet)){
+            $transaction = $user->wallet->transaction;
+            if(empty($transaction))
+                return response()->json([
+                    'status' => false,
+                ], 400);
+
+            return response()->json([
+                'status' => true,
+                'transaction' => $transaction
+            ], 201);
+        }else
             return response()->json([
                 'status' => false,
-                'message' => ' تراکنشی برای این کاربر وجود ندارد.',
             ], 400);
 
-        return response()->json([
-            'status' => true,
-            'transaction' => $transaction
-        ], 201);
     }
 
 
