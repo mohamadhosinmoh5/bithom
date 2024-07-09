@@ -29,7 +29,9 @@ class WalletController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'کیف پولی برای این کاربر وجود ندارد.',
-            ], 400);
+                'wallet' => '0'
+
+            ], 200);
 
         return response()->json([
             'status' => true,
