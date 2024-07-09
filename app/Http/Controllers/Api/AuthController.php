@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Wallet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -196,6 +197,11 @@ class AuthController extends Controller
         $token = $user->createToken('API Token')->plainTextToken;
         $user -> remember_token = $token;
         $user->save();
+
+        $wallet = Wallet::create([
+            'user_id' => $user->id,
+            'stock' => 0,
+        ]);
 
         return response()->json([
             'status' => true,
