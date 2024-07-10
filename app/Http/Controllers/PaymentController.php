@@ -107,10 +107,11 @@ class PaymentController extends Controller
                 return redirect("http://localhost:3000/wallet/detail-payment/?transaction_id=$transaction->id");
         }
     }else{
-        return response()->json([
-            'status' => false,
-            'message' => "عملیات ناموفق",
-        ],400 );
+        return redirect("http://localhost:3000/wallet/detail-payment/?transaction_id=$transaction->id");
+        // return response()->json([
+        //     'status' => false,
+        //     'message' => "عملیات ناموفق",
+        // ],400 );
     }
     }
 
@@ -124,7 +125,7 @@ class PaymentController extends Controller
         $data->save();
     }
 
-    
+
 
 
 
