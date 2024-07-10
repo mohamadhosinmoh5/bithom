@@ -41,9 +41,9 @@ class ProjectController extends Controller
 
 
         $project = Project::where('id', $request->id)
-                ->with('file')
-                ->with('unit')
+                ->with('file','unit','mainImg')
                 ->first();
+
 
         // $remainingMeterage = $this->remainingMeterage($project);
 

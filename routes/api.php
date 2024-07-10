@@ -73,6 +73,9 @@ Route::get('/getTransactions', [WalletController::class, 'getTransactions']);
 
 Route::get('/getMyAssets', [AssetManagementController::class, 'myAssets']);
 
+Route::get('/getTrades', [AssetManagementController::class, 'trades']);
+
+
 
 
 Route::post('/payment', [PaymentController::class, 'payment']);

@@ -24,6 +24,10 @@ class File extends Model
     const USER = "user";
     const PROJECT = "project";
 
+    public function projectImg()
+    {
+        return $this->hasOne(Project::class, 'main_img_id', 'id');
+    }
 
     public function project()
     {

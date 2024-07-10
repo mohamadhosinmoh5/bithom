@@ -47,9 +47,8 @@ class AssetManagementController extends Controller
                 $project = Project::findOrFail($transaction->project_id);
                 $dayValues += $project->currentPrice * $buyController->investmentMeterage($project , $transaction->amount);
 
-
-                $project = Project::findOrFail($transaction->project_id);
                 $product['title'] = $project->title;
+                $product['mainImg'] = $project->mainImg->url;
                 $product['baseTitle'] = $project->baseTitle;
                 $product['currentPrice'] = $project->currentPrice;
                 $product['investmentPrice'] = $transaction->amount;
@@ -68,12 +67,6 @@ class AssetManagementController extends Controller
         }
         $totalProfit = $dayValues - $investmentAmount;
 
-
-
-
-
-
-
         return response()->json([
             'status' => true,
             'stock' => $user->wallet->stock,
@@ -84,14 +77,46 @@ class AssetManagementController extends Controller
 
     }
 
-
-
-
-    public function trades()
+    public function trades(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'mobile' => 'required|numeric|digits:11',
+        ]);
+
+        if ($validator->fails())
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+
+        $buyController = New BuyController;
+        $user = User::where('mobile', $request->mobile)->first();
+
+        $transactions = $user->wallet->transaction;
+        $products = [];
+        foreach($transactions as $transaction){
+            $product =[];
+            if($transaction->project_id != null){
+                $project = Project::findOrFail($transaction->project_id);
+                $product['title'] = $project->title;
+                $product['baseTitle'] = $project->baseTitle;
+                $product['investmentPrice'] = $transaction->amount;
+                $product['investmentMeterage'] = $buyController->investmentMeterage($project , $transaction->amount);
+                $product['price'] = $project->price;
+                $product['tax'] = $buyController->tax($project , $transaction->amount);
+                $product['wage'] = $buyController->wage($project , $transaction->amount);
+                $product['status'] = $transaction->status;
+                $product['crateAt'] = $transaction->created_at;
+
+                array_push($products, $product);
+            }
+        }
+        return response()->json([
+            'status' => true,
+            'products' => $products,
+        ], 201);
+
     }
 
-    public function orders()
-    {
-    }
 }

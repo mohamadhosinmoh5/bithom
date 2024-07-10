@@ -30,7 +30,8 @@ class Project extends Model
         'start_price_investment',
         'supply_status_code',
         'baseTitle',
-        'currentPrice'
+        'currentPrice',
+        'main_img_id'
     ];
 
 
@@ -43,6 +44,12 @@ class Project extends Model
     {
         return $this->hasMany(File::class, 'type_id', 'id');
     }
+
+    public function mainImg()
+    {
+        return $this->belongsTo(File::class, 'main_img_id', 'id');
+    }
+
 
 
 
