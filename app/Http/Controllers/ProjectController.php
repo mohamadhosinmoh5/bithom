@@ -13,7 +13,8 @@ class ProjectController extends Controller
     public function getProjects()
     {
 
-        $project = Project::get();
+        $project = Project::with('mainImg')->get();
+
         if(count($project) == 0)
             return response()->json([
                 'status' => false,

@@ -63,8 +63,17 @@ class AuthController extends Controller
             ], 400);
 
         $user = User::where('mobile', $request->mobile)->first();
-        $user->otp = random_int(1000, 9999);
-        $user->save();
+        if($user){
+            $user->otp = random_int(1000, 9999);
+            $user->save();
+
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found',
+            ], 404);
+        }
+
 
         return response()->json([
             'status' => true,
@@ -78,14 +87,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric|digits:11',
             'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/\d/',
-        ],
-        // [
-        //     'password.required' => 'فیلد پسورد الزامی است.',
-        //     'password.min' => 'پسورد باید حداقل 8 کاراکتر باشد.',
-        //     'password.regex' => 'پسورد باید حاوی حرف کوچک باشد.',
-        //     'password.regex' => 'پسورد باید حاوی حرف بزرگ باشد.',
-        //     'password.regex' => 'پسورد باید حاوی رقم باشد.',
-        // ]
+            ],
+
         );
 
         if ($validator->fails()) {
@@ -184,35 +187,40 @@ class AuthController extends Controller
 
 
         $user = User::where('mobile', $request->mobile)->first();
+        if($user){
+            $user->update([
+                'mobile' => $request->mobile,
+                'name' => $request->name,
+                'family' => $request->family,
+                'birthdate' => $request->birthdate,
+                'nationalCode' => $request->nationalCode,
+                'password' => Hash::make($request->password),
+            ]);
 
-        $user->update([
-            'mobile' => $request->mobile,
-            'name' => $request->name,
-            'family' => $request->family,
-            'birthdate' => $request->birthdate,
-            'nationalCode' => $request->nationalCode,
-            'password' => Hash::make($request->password),
-        ]);
+            $token = $user->createToken('API Token')->plainTextToken;
+            $user -> remember_token = $token;
+            $user->save();
 
-        $token = $user->createToken('API Token')->plainTextToken;
-        $user -> remember_token = $token;
-        $user->save();
+            $wallet = Wallet::create([
+                'user_id' => $user->id,
+                'stock' => 0,
+            ]);
 
-        $wallet = Wallet::create([
-            'user_id' => $user->id,
-            'stock' => 0,
-        ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'User Created Successfully',
+                'token' => $token,
+                'name' => $user->name,
+                'family' => $user->family,
+                'mobile' => $user->mobile,
+            ], 201);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'User Created Successfully',
-            'token' => $token,
-            'name' => $user->name,
-            'family' => $user->family,
-            'mobile' => $user->mobile,
-        ], 201);
-
-
+        }
+        else
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found',
+            ], 404);
     }
 
 

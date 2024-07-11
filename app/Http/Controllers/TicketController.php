@@ -42,10 +42,10 @@ class TicketController extends Controller
         ], 201);
     }
 
-    public function getTicket(Request $request)
+    public function getMessage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|numeric',
+            'ticket_id' => 'required|numeric',
         ]);
 
         if ($validator->fails())
@@ -56,7 +56,7 @@ class TicketController extends Controller
             ], 400);
 
 
-        $ticket = Ticket::where('id', $request->id)
+        $ticket = Ticket::where('id', $request->ticket_id)
                 ->with('message.answer')
                 ->orderBy('created_at', 'desc')
                 ->first();
