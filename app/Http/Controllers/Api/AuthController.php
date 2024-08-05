@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\BackgroundTask;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Wallet;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -18,14 +20,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile' => 'required|numeric|digits:11',
-        ],
-        // $messages = [
-        //     'mobile.required' => 'فیلد موبایل الزامی است.',
-        //     'mobile.numeric' => 'موبایل باید عددی باشد',
-        //     'mobile.digits' => 'فیلد موبایل الزامی است.',
-        // ]
-        );
-
+        ]);
 
         if ($validator->fails()) {
             // dd($validator->errors());
@@ -41,8 +36,8 @@ class AuthController extends Controller
                 'status' => true,
             ], 200);
         else{
-            $this->generateRandomOTP($request->mobile);
-
+            // $this->generateRandomOTP();
+            BackgroundTask::dispatch($request->mobile)->delay(Carbon::now()->addMinutes(5));
             return response()->json([
                 'status' => false,
             ], 200);
@@ -205,6 +200,7 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'stock' => 0,
             ]);
+
 
             return response()->json([
                 'status' => true,
