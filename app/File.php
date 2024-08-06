@@ -29,6 +29,11 @@ class File extends Model
         return $this->hasOne(Project::class, 'main_img_id', 'id');
     }
 
+    public function companyImg()
+    {
+        return $this->hasOne(Company::class, 'logo_file_id', 'id');
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class, 'type_id', 'id');

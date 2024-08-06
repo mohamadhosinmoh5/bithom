@@ -21,7 +21,7 @@ class LegalUserAuth extends Controller
             'registration_num' => 'required|numeric',
             'registration_date' => 'required|date',
             'registration_city'=> 'required|string',
-            'logo' => 'max:4048',
+            'logo_file_id' => 'required',
             'company_email'=> 'required|string',
             'phone'=> 'required|numeric|digits:11',
             'postal_code'=> 'required|numeric|digits:10',
@@ -55,7 +55,7 @@ class LegalUserAuth extends Controller
                 'registration_num' => $request->registration_num,
                 'registration_date' => $request->registration_date,
                 'registration_city'=> $request->registration_city,
-                'logo' => $request->logo,
+                'logo_file_id' => $request->logo_file_id,
                 'company_email'=> $request->company_email,
                 'phone'=> $request->phone,
                 'postal_code'=> $request->postal_code,
@@ -66,6 +66,10 @@ class LegalUserAuth extends Controller
             return response()->json([
                 'status' => true,
                 'userType' => $request->userType,
+                'company' => $company,
+                'logo' => $company->logoImg
+
+
             ], 201);
 
         }

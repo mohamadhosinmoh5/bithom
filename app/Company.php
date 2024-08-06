@@ -15,7 +15,7 @@ class Company extends Model
         'registration_num',
         'registration_date',
         'registration_city',
-        'logo',
+        'logo_file_id',
         'company_email',
         'phone',
         'postal_code',
@@ -29,4 +29,10 @@ class Company extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function logoImg()
+    {
+        return $this->belongsTo(File::class, 'logo_file_id', 'id');
+    }
+
 }
