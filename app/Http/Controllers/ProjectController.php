@@ -13,7 +13,8 @@ class ProjectController extends Controller
     public function getProjects()
     {
 
-        $project = Project::with('mainImg')->get();
+        // $project = Project::with('mainImg')->get();
+        $project = Project::with('mainImg')->orderBy('created_at', 'desc')->take(5)->get();
 
         if(count($project) == 0)
             return response()->json([

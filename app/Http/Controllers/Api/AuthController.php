@@ -37,7 +37,7 @@ class AuthController extends Controller
             ], 200);
         else{
             // $this->generateRandomOTP();
-            BackgroundTask::dispatch($request->mobile)->delay(Carbon::now()->addMinutes(5));
+            BackgroundTask::dispatch($request->mobile)->delay(Carbon::now()->addMinutes(1));
             return response()->json([
                 'status' => false,
             ], 200);
@@ -164,6 +164,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
+            'userType' =>'required',
             'mobile' => 'required|numeric|digits:11',
             'name' => 'required|string|max:255',
             'family' => 'required|string|max:255',
@@ -184,6 +185,7 @@ class AuthController extends Controller
         $user = User::where('mobile', $request->mobile)->first();
         if($user){
             $user->update([
+                'userType' => $request->userType,
                 'mobile' => $request->mobile,
                 'name' => $request->name,
                 'family' => $request->family,
@@ -209,6 +211,7 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'family' => $user->family,
                 'mobile' => $user->mobile,
+                'userType' => $user->userType
             ], 201);
 
         }

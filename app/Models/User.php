@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Answer;
+use App\Company;
 use App\File;
 use App\Message;
 use App\Product;
@@ -20,6 +21,9 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends \TCG\Voyager\Models\User
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    CONST LEGAL = 'legal';
+    CONST REAL = 'real';
 
     /**
      * The attributes that are mass assignable.
@@ -43,10 +47,16 @@ class User extends \TCG\Voyager\Models\User
         'inviteCode',
         'remember_token',
         'investmentPrice',
-        
+        'userType',
         'totalProfit'
 
     ];
+
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'user_id', 'id')->where($this->userType , $this->LEGAL);
+    }
+
 
     public function identityInformation()
     {
