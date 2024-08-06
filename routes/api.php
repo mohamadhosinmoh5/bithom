@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\AssetManagementController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\fileUploadController;
+use App\Http\Controllers\LegalUserAuth;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ticketController;
@@ -85,6 +86,9 @@ Route::post('/buy', [BuyController::class, 'buy']);
 
 Route::post('/callbackUrl', [PaymentController::class, 'callbackUrl']);
 Route::get('/callbackUrl', [PaymentController::class, 'callbackUrl']);
+
+Route::post('/createCompany', [LegalUserAuth::class, 'createCompany']);
+
 
 
 

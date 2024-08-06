@@ -16,18 +16,16 @@ class LegalUserAuth extends Controller
 
             'userType' =>'required',
             'mobile' => 'required|numeric|digits:11|exists:users,mobile',
-
             'comany_name' => 'required|string|max:255',
             'company_type' => 'required|string|max:255',
             'registration_num' => 'required|numeric',
             'registration_date' => 'required|date',
             'registration_city'=> 'required|string',
-            'logo' => 'required|string|max:255',
+            // 'logo' => 'max:4048',
             'company_email'=> 'required|string',
             'phone'=> 'required|numeric|digits:11',
             'postal_code'=> 'required|numeric|digits:10',
             'local_city'=> 'required|string',
-            'national_code' => 'required||digits:10|numeric',
             'company_address' => 'required|string|max:255',
             'userType' =>'required',
 
@@ -57,7 +55,7 @@ class LegalUserAuth extends Controller
                 'registration_num' => $request->registration_num,
                 'registration_date' => $request->registration_date,
                 'registration_city'=> $request->registration_city,
-                'logo' => $request->logo,
+                // 'logo' => $request->logo,
                 'company_email'=> $request->company_email,
                 'phone'=> $request->phone,
                 'postal_code'=> $request->postal_code,
@@ -67,7 +65,7 @@ class LegalUserAuth extends Controller
 
             return response()->json([
                 'status' => true,
-                'userType' => $user->userType
+                'userType' => $request->userType,
             ], 201);
 
         }
@@ -77,4 +75,6 @@ class LegalUserAuth extends Controller
                 'message' => 'User not found',
             ], 404);
     }
+
+
 }

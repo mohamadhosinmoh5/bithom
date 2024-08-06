@@ -20,9 +20,6 @@ class Company extends Model
         'phone',
         'postal_code',
         'local_city',
-        'national_code',
-        'agent_name',
-        'agent_family',
         'user_id',
         'company_address'
 
