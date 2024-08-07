@@ -66,6 +66,11 @@ Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']
 
 Route::get('/getProjects', [ProjectController::class, 'getProjects']);
 Route::get('/getProject', [ProjectController::class, 'getProject']);
+Route::post('/createProject', [ProjectController::class, 'createProject']);
+
+Route::get('/deleteProject', [ProjectController::class, 'deleteProject']);
+
+
 Route::post('/getBuyIformation', [BuyController::class, 'getBuyIformation']);
 
 
