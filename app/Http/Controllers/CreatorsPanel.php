@@ -120,6 +120,7 @@ class CreatorsPanel extends Controller
             $quantitySold = $totalMeterage - $remaining_meterage; // مقدار فروخته شده
             $projectData[] = [
                 'title' => $project->title,
+                'project_id' => $project->project_id,
                 'totalMeterage' => $totalMeterage,
                 'quantitySold' => $quantitySold,
                 'currentPrice' => $project->currentPrice,
@@ -135,7 +136,6 @@ class CreatorsPanel extends Controller
     public function deleteProject(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|numeric',
             'project_id' => 'required',
         ]);
 
@@ -145,36 +145,27 @@ class CreatorsPanel extends Controller
                 'message' => 'Validation Error',
                 'errors' => $validator->errors(),
             ], 400);
+        $project = Project::findOrFail($request->project_id);
 
-        $user = User::where('mobile', $request->mobile)->first();
-        if($user){
-
-            $project = Project::findOrFail($request->project_id);
-
-            if ($project) {
-                $project->delete();
-            }else{
-                return response()->json([
-                    'status' => false,
-                    'message' => 'پروژه وجود ندارد.',
-                ], 400);
-
-            }
+        if ($project) {
+            $project->delete();
+        }else{
             return response()->json([
-                'status' => true,
-                'message' => 'پروژه حذف شد.',
-            ],201);
+                'status' => false,
+                'message' => 'پروژه وجود ندارد.',
+            ], 400);
         }
+
         return response()->json([
-            'status' => false,
-            'message' => 'کاربر وجود ندارد.',
-        ], 400);
+            'status' => true,
+            'message' => 'پروژه حذف شد.',
+        ],201);    
     }
 
     public function getProject(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|numeric',
+            'project_id' => 'required|numeric',
         ]);
 
         if ($validator->fails())
@@ -185,7 +176,7 @@ class CreatorsPanel extends Controller
             ], 400);
 
 
-        $project = Project::where('id', $request->id)
+        $project = Project::where('project_id', $request->id)
                 ->with('file','unit','mainImg')
                 ->first();
 
