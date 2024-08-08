@@ -19,7 +19,6 @@ class CreatorsPanel extends Controller
             'meterage' => 'required|numeric',
             'attechment_file_id' => 'required|numeric',
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
