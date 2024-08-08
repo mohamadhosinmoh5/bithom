@@ -40,12 +40,11 @@ Route::post('/auth', [AuthController::class, 'checkPhone']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 Route::post('/auth/checkOtp', [AuthController::class, 'checkOtp']);
 
-
 Route::post('/auth/generateOtp', [AuthController::class, 'generateRandomOTP']);
 Route::post('/auth/updateOtp', [AuthController::class, 'updateOtp']);
 
-
 Route::post('/auth/register', [AuthController::class, 'createUser']);
+
 
 Route::post('/userPanel/changePassword', [UserController::class, 'chengePassword']);
 Route::get('/userPanel/userInfo', [UserController::class, 'getUserInfo']);
@@ -67,31 +66,26 @@ Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']
 
 Route::get('/getProjects', [ProjectController::class, 'getProjects']);
 Route::get('/getProject', [ProjectController::class, 'getProject']);
-Route::post('/createProject', [ProjectController::class, 'createProject']);
 
+Route::post('/createProject', [CreatorsPanel::class, 'createProject']);
 Route::get('/creatorPanel', [CreatorsPanel::class, 'creator']);
+Route::get('/deleteProject', [CreatorsPanel::class, 'deleteProject']);
+Route::get('/getProjects', [CreatorsPanel::class, 'getProjects']);
 
-
-Route::get('/deleteProject', [ProjectController::class, 'deleteProject']);
 
 
 Route::post('/getBuyIformation', [BuyController::class, 'getBuyIformation']);
+
+Route::post('/buy', [BuyController::class, 'buy']);
 
 
 Route::get('/getWallet', [WalletController::class, 'getWallet']);
 Route::get('/getTransactions', [WalletController::class, 'getTransactions']);
 
 Route::get('/getMyAssets', [AssetManagementController::class, 'myAssets']);
-
 Route::get('/getTrades', [AssetManagementController::class, 'trades']);
 
-
-
-
 Route::post('/payment', [PaymentController::class, 'payment']);
-
-Route::post('/buy', [BuyController::class, 'buy']);
-
 
 Route::post('/callbackUrl', [PaymentController::class, 'callbackUrl']);
 Route::get('/callbackUrl', [PaymentController::class, 'callbackUrl']);
