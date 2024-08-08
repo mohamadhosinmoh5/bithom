@@ -24,12 +24,24 @@ class CreatorsPanel extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
         $project = $user->project;
+        //مقدار عرضه شده
         $totalMeterage = $user->project->sum('meterage');
+
+        //مقدار فروخته شده
+        $remaining_meterages = $user->project->sum('remaining_meterage');
+        $quantitySold = $totalMeterage - $remaining_meterages;
+
+        //تعداد خریداران
+        $buyerCount = $user->project->sum(function ($project) {
+            return $project->product->count();
+        });
 
         return response()->json([
             'status' => true,
             'project' => $project,
-            'totalMeterage' => $totalMeterage
+            'totalMeterage' => $totalMeterage,
+            'quantitySold' => $quantitySold,
+            'buyerCount' => $buyerCount
 
         ], 201);
     }
