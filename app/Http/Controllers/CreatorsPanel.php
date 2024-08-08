@@ -175,7 +175,7 @@ class CreatorsPanel extends Controller
             ], 400);
 
 
-        $project = Project::where('project_id', $request->id)
+        $project = Project::where('id', $request->project_id)
                 ->with('file','unit','mainImg')
                 ->first();
 
