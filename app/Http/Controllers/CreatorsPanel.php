@@ -120,7 +120,7 @@ class CreatorsPanel extends Controller
             $quantitySold = $totalMeterage - $remaining_meterage; // مقدار فروخته شده
             $projectData[] = [
                 'title' => $project->title,
-                'project_id' => $project->project_id,
+                'project_id' => $project->id,
                 'totalMeterage' => $totalMeterage,
                 'quantitySold' => $quantitySold,
                 'currentPrice' => $project->currentPrice,
@@ -159,7 +159,7 @@ class CreatorsPanel extends Controller
         return response()->json([
             'status' => true,
             'message' => 'پروژه حذف شد.',
-        ],201);    
+        ],201);
     }
 
     public function getProject(Request $request)
