@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\AssetManagementController;
 use App\Http\Controllers\BuyController;
+use App\Http\Controllers\CreatorsPanel;
 use App\Http\Controllers\fileUploadController;
 use App\Http\Controllers\LegalUserAuth;
 use App\Http\Controllers\PaymentController;
@@ -67,6 +68,9 @@ Route::post('/userPanel/createAnswer', [TicketController::class, 'createAnswer']
 Route::get('/getProjects', [ProjectController::class, 'getProjects']);
 Route::get('/getProject', [ProjectController::class, 'getProject']);
 Route::post('/createProject', [ProjectController::class, 'createProject']);
+
+Route::get('/creatorPanel', [CreatorsPanel::class, 'creator']);
+
 
 Route::get('/deleteProject', [ProjectController::class, 'deleteProject']);
 

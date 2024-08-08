@@ -78,6 +78,7 @@ class ProjectController extends Controller
         $user = User::where('mobile', $request->mobile)->first();
         if($user){
             $project = Project::create([
+                'user_id' => $user->id,
                 'title' => $request->title,
                 'price' => $request->price,
                 'address' => $request->address,
@@ -137,20 +138,5 @@ class ProjectController extends Controller
             'message' => 'کاربر وجود ندارد.',
         ], 400);
     }
-
-    // public function remainingMeterage($data)
-    // {
-    //     //متراژباقی مانده = متراژ خریدشده - متراژمفید
-
-    //     $data->meterage - ;
-    // }
-
-    // public function realizedProfit($data)
-    // {
-    //     //سود محقق شده
-    //     $data->price - ;
-
-
-    // }
 
 }

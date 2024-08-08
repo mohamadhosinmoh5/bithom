@@ -38,8 +38,6 @@ class LegalUserAuth extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-
-
         $user = User::where('mobile', $request->mobile)->first();
         if($user){
             $user->update([
@@ -68,10 +66,7 @@ class LegalUserAuth extends Controller
                 'userType' => $request->userType,
                 'company' => $company,
                 'logo' => $company->logoImg
-
-
             ], 201);
-
         }
         else
             return response()->json([

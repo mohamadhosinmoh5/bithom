@@ -9,6 +9,7 @@ use App\Company;
 use App\File;
 use App\Message;
 use App\Product;
+use App\Project;
 use App\Ticket;
 use App\UserIdentityInformation;
 use App\UserIdentityInformations;
@@ -55,6 +56,12 @@ class User extends \TCG\Voyager\Models\User
     public function company()
     {
         return $this->hasOne(Company::class, 'user_id', 'id')->where($this->userType , $this->LEGAL);
+    }
+
+
+    public function project()
+    {
+        return $this->hasMany(Project::class, 'user_id', 'id');
     }
 
 

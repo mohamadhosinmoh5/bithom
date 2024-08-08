@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -31,7 +32,8 @@ class Project extends Model
         'supply_status_code',
         'baseTitle',
         'currentPrice',
-        'main_img_id'
+        'main_img_id',
+        'user_id'
     ];
 
 
@@ -43,6 +45,12 @@ class Project extends Model
     public function file()
     {
         return $this->hasMany(File::class, 'type_id', 'id');
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function mainImg()
