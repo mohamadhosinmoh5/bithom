@@ -17,6 +17,7 @@ class FileUploadController extends Controller
             'model' => 'string',
             'mobile' => 'required|numeric|digits:11',
             'project_id' => ($request->project_id !== null) ? 'required|' : '',
+            'attechment_type' => ($request->attechment_type !== null) ? 'required|' : '',
 
         ]);
         if ($validator->fails())
@@ -50,6 +51,9 @@ class FileUploadController extends Controller
             foreach($uploadedFiles as $uploadedFile )
             {
                 $file = new File;
+                if(!empty($request->attechment_type)){
+                    $file->attechment_type = $request->attechment_type;
+                }
                 $file->url = $uploadedFile;
                 $file->model = $request->model;
                 $file->type_id = $type_id;

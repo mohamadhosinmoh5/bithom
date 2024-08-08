@@ -71,6 +71,8 @@ Route::post('/createProject', [CreatorsPanel::class, 'createProject']);
 Route::get('/creatorPanel', [CreatorsPanel::class, 'creator']);
 Route::get('/deleteProject', [CreatorsPanel::class, 'deleteProject']);
 Route::get('/getProjects', [CreatorsPanel::class, 'getProjects']);
+Route::get('/getProject', [CreatorsPanel::class, 'getProject']);
+
 
 
 

@@ -118,7 +118,6 @@ class CreatorsPanel extends Controller
             $totalMeterage = $project->meterage; // مقدار عرضه شده
             $remaining_meterage = $project->remaining_meterage; // مقدار باقی‌مانده
             $quantitySold = $totalMeterage - $remaining_meterage; // مقدار فروخته شده
-
             $projectData[] = [
                 'title' => $project->title,
                 'totalMeterage' => $totalMeterage,
@@ -171,5 +170,32 @@ class CreatorsPanel extends Controller
             'message' => 'کاربر وجود ندارد.',
         ], 400);
     }
+
+    public function getProject(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric',
+        ]);
+
+        if ($validator->fails())
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 400);
+
+
+        $project = Project::where('id', $request->id)
+                ->with('file','unit','mainImg')
+                ->first();
+
+        return response()->json([
+            'status' => true,
+            'project' => $project,
+
+        ], 201);
+    }
+
+
 
 }

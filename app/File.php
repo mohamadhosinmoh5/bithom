@@ -8,13 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
+    CONST DOCUMENT = 'document';
+    CONST CONTRACT = 'contract';
+
     protected $fillable = [
         'id',
         'url',
         'model',
         'type_id',
         'type_file',
-        'mime_type'
+        'mime_type',
+        'attechment_type'
+
     ];
 
     const VIDEOO = "video";
